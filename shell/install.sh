@@ -1,8 +1,8 @@
-#!bash
+#!/bin/bash
 
-SCRIPT_DIR=DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-ln -s $SCRIPT_DIR/aliases       $HOME/.bash_aliases
-ln -s $SCRIPT_DIR/bash_common   $HOME/.bash_common
-ln -s $SCRIPT_DIR/profile       $HOME/.bash_profile
-ln -s $SCRIPT_DIR/bashrc        $HOME/.bashrc
+ln -snf $SCRIPT_DIR/aliases       $HOME/.bash_aliases
+ln -snf $SCRIPT_DIR/bash_common   $HOME/.bash_common
+ln -snf $SCRIPT_DIR/profile       $HOME/.bash_profile
+ln -snf $SCRIPT_DIR/bashrc        $HOME/.bashrc

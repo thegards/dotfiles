@@ -1,5 +1,6 @@
-#!bash
+#!/bin/bash
 
-SCRIPT_DIR=DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-ln -s $SCRIPT_DIR/vimdir $HOME/.vim
+ln -snf $SCRIPT_DIR/vimdir           $HOME/.vim
+ln -snf $SCRIPT_DIR/vimdir/vimrc     $HOME/.vimrc
