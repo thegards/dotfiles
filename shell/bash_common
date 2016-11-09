@@ -1,0 +1,56 @@
+if [ -f ~/.bash_aliases ]; then
+    source ~/.bash_aliases
+fi
+
+SSH_ENV="$HOME/.ssh/environment"
+
+function start_agent {
+    echo "Initialising new SSH agent..."
+    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+    echo succeeded
+    chmod 600 "${SSH_ENV}"
+    . "${SSH_ENV}" > /dev/null
+    /usr/bin/ssh-add;
+}
+
+# Source SSH settings, if applicable
+if [ -f "${SSH_ENV}" ]; then
+    . "${SSH_ENV}" > /dev/null
+    #ps ${SSH_AGENT_PID} doesn't work under cywgin
+    ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+     start_agent;
+    }
+else
+    start_agent;
+fi
+
+function kill_ssh_agent {
+    eval $(ssh-agent -k)
+}
+
+export SVN_EDITOR=vim
+
+parse_git_branch () {
+    git name-rev HEAD 2> /dev/null | sed 's#HEAD\ \(.*\)# (git::\1)#'
+}
+parse_svn_branch() {
+    parse_svn_url | sed -e 's#^'"$(parse_svn_repository_root)"'##g' | awk '{print " (svn::"$1")" }'
+}
+parse_svn_url() {
+    svn info 2>/dev/null | sed -ne 's#^URL: ##p'
+}
+parse_svn_repository_root() {
+    svn info 2>/dev/null | sed -ne 's#^Repository Root: ##p'
+}
+
+USER_COLOR='\e[0;31m'
+HOST_COLOR='\e[1;36m'
+WHERE_COLOR='\e[1;32m'
+BRANCH_COLOR='\e[1;32m'
+NORMAL_COLOR='\e[0m'
+MSYSTEM_COLOR='\e[0;35m'
+
+UNAME_S=`uname -s`
+
+export PS1="\\[$USER_COLOR\\]\u\\[$HOST_COLOR\\]@\h\\[$WHERE_COLOR\\]:\w\\[$MSYSTEM_COLOR\\] $MSYSTEM $UNAME_S\\[$NORMAL_COLOR\\]
+\$ "

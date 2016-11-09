@@ -1,0 +1,112 @@
+if has('win32') || has('win64')
+    " Make windows use ~/.vim too, I don't want to use _vimfiles
+    set runtimepath^=~/.vim
+endif
+
+set path+=include
+set path+=src
+set path+=../include
+set path+=../src
+set path+=../../include
+set path+=../../src
+set path+=../../../include
+set path+=../../../src
+
+syntax on
+
+"Do not set term=xterm as this will mess up with tmux
+"set term=xterm
+set t_Co=256
+let &t_AB="\e[48;5;%dm"
+let &t_AF="\e[38;5;%dm"
+colorscheme fu
+
+set tabstop=4 shiftwidth=4 softtabstop=4
+set expandtab
+set list listchars=tab:\|-,trail:~,extends:>,precedes:<
+set smarttab
+set smartindent
+set wrap
+set bs=indent,eol,start
+set nocompatible
+set foldmethod=syntax
+set foldlevelstart=99
+set scrolloff=50
+
+" default to relative line numbers
+set relativenumber
+set nonumber
+
+" show absolute line numbers when focus is lost
+au FocusLost *   :set nu | set nornu
+au FocusGained * :set rnu | set nonu
+
+" show absolute line numbers when in insert mode
+au InsertEnter * :set nu | set nornu
+au InsertLeave * :set rnu | set nonu
+
+" navigating with arrow keys in normal mode is a no-no
+nnoremap <Up> <NOP>
+nnoremap <Down> <NOP>
+nnoremap <Left> <NOP>
+nnoremap <Right> <NOP>
+
+" try to stick to normal mode for navigating
+inoremap <Up> <NOP>
+inoremap <Down> <NOP>
+inoremap <Left> <NOP>
+inoremap <Right> <NOP>
+
+"map <C-W> :qa!<Enter>
+
+set laststatus=2
+set statusline=%f%m%r%h%w\ (%{&ff}){%Y}\ [%l,%v]%=[%p%%,%L\ lines]
+
+" Highlight current cursor line
+set cul
+hi CursorLine term=bold cterm=bold
+
+"inoremap <Tab> <C-V><Tab>
+au BufNewFile,BufReadPre *.mk setlocal noexpandtab
+au BufNewFile,BufReadPre Makefile* setlocal noexpandtab
+
+" Use all utf-8 for encoding a file.
+scriptencoding utf-8
+set fileencodings=utf-8
+set encoding=utf-8
+
+set colorcolumn=81
+hi ColorColumn ctermbg=236 guibg=#444444
+
+" Window swapping
+function! MarkWindowSwap()
+    let g:markedWinNum = winnr()
+endfunction
+
+function! DoWindowSwap()
+    "Mark destination
+    let curNum = winnr()
+    let curBuf = bufnr( "%" )
+    exe g:markedWinNum . "wincmd w"
+    "Switch to source and shuffle dest->source
+    let markedBuf = bufnr( "%" )
+    "Hide and open so that we aren't prompted and keep history
+    exe 'hide buf' curBuf
+    "Switch to dest and shuffle source->dest
+    exe curNum . "wincmd w"
+    "Hide and open so that we aren't prompted and keep history
+    exe 'hide buf' markedBuf 
+endfunction
+
+map <F2> :NERDTreeToggle<CR>
+
+nmap <S-F5> :tabn<CR>
+nmap <S-F6> :tabp<CR>
+nmap <F5> <C-w>W
+nmap <F6> <C-w>w
+
+nmap <silent> <leader>mw :call MarkWindowSwap()<CR>
+nmap <silent> <leader>pw :call DoWindowSwap()<CR>
+
+execute pathogen#infect('pathogens/{}')
+
