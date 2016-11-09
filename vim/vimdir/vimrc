@@ -36,6 +36,7 @@ set scrolloff=50
 " default to relative line numbers
 set relativenumber
 set nonumber
+set numberwidth 5
 
 " show absolute line numbers when focus is lost
 au FocusLost *   :set nu | set nornu
