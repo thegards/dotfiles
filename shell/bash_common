@@ -2,6 +2,10 @@ if [ -f ~/.bash_aliases ]; then
     source ~/.bash_aliases
 fi
 
+export PATHADD=/opt/bin:/opt/sbin
+export PATH_ORIG=$PATH
+export PATH=$PATH:$PATHADD
+
 SSH_ENV="$HOME/.ssh/environment"
 
 # Set proper ls colors
