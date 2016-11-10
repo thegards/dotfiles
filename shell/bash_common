@@ -4,6 +4,10 @@ fi
 
 SSH_ENV="$HOME/.ssh/environment"
 
+# Set proper ls colors
+export CLICOLOR=1
+export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
+
 function start_agent {
     echo "Initialising new SSH agent..."
     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
@@ -30,27 +34,61 @@ function kill_ssh_agent {
 
 export SVN_EDITOR=vim
 
-parse_git_branch () {
-    git name-rev HEAD 2> /dev/null | sed 's#HEAD\ \(.*\)# (git::\1)#'
+# Outputs the current trunk, branch, or tag
+# (thanks to https://github.com/dtjm/dotfiles)
+__svn_branch() {
+    local url=
+    local info=`svn info 2>/dev/null | grep URL:`
+    if [[ -n $info ]]; then
+        url=`echo $info | awk '/URL:/ {print $2}'`
+        if [[ $url =~ trunk ]]; then
+            echo trunk
+        elif [[ $url =~ /branches/ ]]; then
+            echo $url | sed -e 's#^.*/\(branches/.*\)/.*$#\1#'
+        elif [[ $url =~ /tags/ ]]; then
+            echo $url | sed -e 's#^.*/\(tags/.*\)/.*$#\1#'
+        fi
+    fi
 }
-parse_svn_branch() {
-    parse_svn_url | sed -e 's#^'"$(parse_svn_repository_root)"'##g' | awk '{print " (svn::"$1")" }'
+
+# Outputs the current revision
+# (thanks to https://github.com/dtjm/dotfiles)
+__svn_rev() {
+    local r=$(svn info 2>/dev/null | grep "^Revision: " | cut -f2 -d" ")
+
+    if [ ! -z $SVN_SHOWDIRTYSTATE ]; then
+        local svnst flag
+        svnst=$(svn status | grep '^\s*[?ACDMR?!]')
+        [ -z "$svnst" ] && flag=*
+        r=$r$flag
+    fi
+    echo $r
 }
-parse_svn_url() {
-    svn info 2>/dev/null | sed -ne 's#^URL: ##p'
+
+
+function print_svn_info() {
+    local branch=$(__svn_branch)
+    test -n "$branch" && echo " (svn::"$branch"@"$(__svn_rev)")"
 }
-parse_svn_repository_root() {
-    svn info 2>/dev/null | sed -ne 's#^Repository Root: ##p'
+
+source ~/dotfiles/git/git_prompt.sh
+function print_git_info() {
+    local git_ps1=`__git_ps1 %s 2>/dev/null`
+    test -n "$git_ps1" && echo " (git::"$git_ps1")"
 }
 
 USER_COLOR='\e[0;31m'
 HOST_COLOR='\e[1;36m'
 WHERE_COLOR='\e[1;32m'
-BRANCH_COLOR='\e[1;32m'
+BRANCH_COLOR='\e[0;33m'
 NORMAL_COLOR='\e[0m'
 MSYSTEM_COLOR='\e[0;35m'
 
 UNAME_S=`uname -s`
 
-export PS1="\\[$USER_COLOR\\]\u\\[$HOST_COLOR\\]@\h\\[$WHERE_COLOR\\]:\w\\[$MSYSTEM_COLOR\\] $MSYSTEM $UNAME_S\\[$NORMAL_COLOR\\]
+function __platform_prompt() {
+    test -n "$MSYSTEM" && echo " $MSYSTEM $UNAME_S" || echo " $UNAME_S"
+}
+
+export PS1="\\[$USER_COLOR\\]\u\\[$HOST_COLOR\\]@\h\\[$WHERE_COLOR\\]:\w\\[$MSYSTEM_COLOR\\]$(__platform_prompt)\\[$BRANCH_COLOR\\]\$(print_git_info)\$(print_svn_info)\\[$NORMAL_COLOR\\]
 \$ "
