@@ -39,7 +39,7 @@ export SVN_EDITOR=vim
 
 # Outputs the current trunk, branch, or tag
 # (thanks to https://github.com/dtjm/dotfiles)
-__svn_branch() {
+function __svn_branch() {
     local url=
     local info=`svn info 2>/dev/null | grep URL:`
     if [[ -n $info ]]; then
@@ -56,18 +56,9 @@ __svn_branch() {
 
 # Outputs the current revision
 # (thanks to https://github.com/dtjm/dotfiles)
-__svn_rev() {
-    local r=$(svn info 2>/dev/null | grep "^Revision: " | cut -f2 -d" ")
-
-    if [ ! -z $SVN_SHOWDIRTYSTATE ]; then
-        local svnst flag
-        svnst=$(svn status | grep '^\s*[?ACDMR?!]')
-        [ -z "$svnst" ] && flag=*
-        r=$r$flag
-    fi
-    echo $r
+function __svn_rev() {
+    echo $(svn info 2>/dev/null | grep "^Revision: " | cut -f2 -d" ")
 }
-
 
 function print_svn_info() {
     local branch=$(__svn_branch)
