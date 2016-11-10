@@ -6,7 +6,10 @@ SSH_ENV="$HOME/.ssh/environment"
 
 # Set proper ls colors
 export CLICOLOR=1
-export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
+# Default linux terminal colors
+export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
+# Maybe better contrast for black bg?
+# export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
 
 function start_agent {
     echo "Initialising new SSH agent..."

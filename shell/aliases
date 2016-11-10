@@ -1,2 +1,9 @@
-alias ls="ls -G"
+UNAME=`uname`
+
+if [ "x$UNAME" == "xDarwin" ]; then
+    alias ls="ls -G"
+else
+    alias ls="ls --color"
+fi
+
 alias tmux="TERM=screen-256color tmux -u -2"
