@@ -29,6 +29,8 @@ set nocompatible
 set foldmethod=syntax
 set foldlevelstart=99
 set scrolloff=50
+set ignorecase
+
 
 " default to relative line numbers
 set relativenumber
@@ -58,7 +60,7 @@ inoremap <Right> <NOP>
 "map <C-W> :qa!<Enter>
 
 set laststatus=2
-set statusline=%f%m%r%h%w\ (%{&ff}){%Y}\ [%l,%v]%=[%p%%,%L\ lines]
+set statusline=%n)\ %f%m%r%h%w\ (%{&ff},%{&fenc}){%Y}\ [%l,%v]%=[%p%%,%L\ lines]
 
 " Highlight current cursor line
 set cul
@@ -70,7 +72,7 @@ au BufNewFile,BufReadPre Makefile* setlocal noexpandtab
 
 " Use all utf-8 for encoding a file.
 scriptencoding utf-8
-set fileencodings=utf-8
+set fileencodings=utf-8,utf-16le,utf-16be
 set encoding=utf-8
 
 set colorcolumn=81
@@ -98,8 +100,8 @@ endfunction
 
 map <F2> :NERDTreeToggle<CR>
 
-nmap <S-F5> :tabn<CR>
-nmap <S-F6> :tabp<CR>
+nmap <S-F5> :tabp<CR>
+nmap <S-F6> :tabn<CR>
 nmap <F5> <C-w>W
 nmap <F6> <C-w>w
 

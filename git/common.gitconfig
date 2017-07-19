@@ -1,5 +1,6 @@
 [alias]
 	gl = log --graph --oneline --decorate=short
+	gla = log --graph --oneline --decorate=short --all
 	whois = "!sh -c 'git log -i -1 --pretty=\"format:%an <%ae>\n\" --author=\"$1\"' -"
 	whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
 	d = difftool

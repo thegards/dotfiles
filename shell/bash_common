@@ -6,40 +6,15 @@ export PATHADD=/opt/bin:/opt/sbin
 export PATH_ORIG=$PATH
 export PATH=$PATH:$PATHADD
 
-SSH_ENV="$HOME/.ssh/environment"
-
 # Set proper ls colors
 export CLICOLOR=1
+
 # Default linux terminal colors
 export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
-# Maybe better contrast for black bg?
-# export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx
-
-function start_agent {
-    echo "Initialising new SSH agent..."
-    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-    echo succeeded
-    chmod 600 "${SSH_ENV}"
-    . "${SSH_ENV}" > /dev/null
-    /usr/bin/ssh-add;
-}
-
-# Source SSH settings, if applicable
-if [ -f "${SSH_ENV}" ]; then
-    . "${SSH_ENV}" > /dev/null
-    #ps ${SSH_AGENT_PID} doesn't work under cywgin
-    ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
-     start_agent;
-    }
-else
-    start_agent;
-fi
-
-function kill_ssh_agent {
-    eval $(ssh-agent -k)
-}
 
 export SVN_EDITOR=vim
+
+export SSH_AUTH_SOCK=~/keepass.sock
 
 # Outputs the current trunk, branch, or tag
 # (thanks to https://github.com/dtjm/dotfiles)
@@ -48,12 +23,12 @@ function __svn_branch() {
     local info=`svn info 2>/dev/null | grep URL:`
     if [[ -n $info ]]; then
         url=`echo $info | awk '/URL:/ {print $2}'`
-        if [[ $url =~ trunk ]]; then
+        if [[ $url =~ "trunk" ]]; then
             echo trunk
-        elif [[ $url =~ /branches/ ]]; then
-            echo $url | sed -e 's#^.*/\(branches/.*\)/.*$#\1#'
-        elif [[ $url =~ /tags/ ]]; then
-            echo $url | sed -e 's#^.*/\(tags/.*\)/.*$#\1#'
+        elif [[ $url =~ "/branches/" ]]; then
+            echo $url | sed -e 's/.*\(branches\/[^\/]*\)\(\/.*\)*$/\1/'
+        elif [[ $url =~ "/tags/" ]]; then
+            echo $url | sed -e 's/.*\(tags\/[^\/]*\)\(\/.*\)*$/\1/'
         fi
     fi
 }

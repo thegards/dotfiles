@@ -2,8 +2,10 @@ UNAME=`uname`
 
 if [ "x$UNAME" == "xDarwin" ]; then
     alias ls="ls -G"
-else
+elif [ "x$UNAME" == "xMINGW32_NT-6.2" ]; then
     alias ls="ls --color"
+else
+    alias ls="ls --color --group-directories-first"
 fi
 
 #alias tmux="TERM=screen-256color tmux -u -2"
