@@ -22,6 +22,8 @@ else
     colorscheme fu
 endif
 
+set scrollopt+=hor
+
 set tabstop=4 shiftwidth=4 softtabstop=4
 set expandtab
 set list listchars=tab:\|-,trail:~,extends:>,precedes:<
@@ -113,6 +115,20 @@ nmap <F6> <C-w>w
 
 nmap <silent> <leader>mw :call MarkWindowSwap()<CR>
 nmap <silent> <leader>pw :call DoWindowSwap()<CR>
+
+"set diffopt+=iwhite
+"set diffexpr=PatientDiff()
+"function PatientDiff()
+"    let opt = ""
+"    if &diffopt =~ "icase"
+"        let opt = opt . "-i "
+"    endif
+"    if &diffopt =~ "iwhite"
+"        let opt = opt . "-w " " swapped vim's -b with -w
+"    endif
+"    silent execute "!diff -a " . opt .
+"        \ v:fname_in . " " . v:fname_new .  " > " . v:fname_out
+"endfunction
 
 execute pathogen#infect('pathogens/{}')
 

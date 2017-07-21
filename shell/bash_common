@@ -2,7 +2,11 @@ if [ -f ~/.bash_aliases ]; then
     source ~/.bash_aliases
 fi
 
+if [ x"`uname`" = x"Darwin" ]; then
+export PATHADD=/opt/bin:/opt/sbin:~/brew/bin
+else
 export PATHADD=/opt/bin:/opt/sbin
+endif
 export PATH_ORIG=$PATH
 export PATH=$PATH:$PATHADD
 
