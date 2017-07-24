@@ -2,11 +2,13 @@ if [ -f ~/.bash_aliases ]; then
     source ~/.bash_aliases
 fi
 
-if [ x"`uname`" = x"Darwin" ]; then
-export PATHADD=/opt/bin:/opt/sbin:~/brew/bin
+UNAME_S=`uname -s`
+
+if [ x"$UNAME_S" = x"Darwin" ]; then
+export PATHADD=/opt/bin:/opt/sbin:$HOME/brew/bin
 else
 export PATHADD=/opt/bin:/opt/sbin
-endif
+fi
 export PATH_ORIG=$PATH
 export PATH=$PATH:$PATHADD
 
@@ -60,8 +62,6 @@ WHERE_COLOR='\e[1;32m'
 BRANCH_COLOR='\e[0;33m'
 NORMAL_COLOR='\e[0m'
 MSYSTEM_COLOR='\e[0;35m'
-
-UNAME_S=`uname -s`
 
 function __platform_prompt() {
     test -n "$MSYSTEM" && echo " $MSYSTEM $UNAME_S" || echo " $UNAME_S"
