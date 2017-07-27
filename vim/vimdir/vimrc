@@ -16,7 +16,11 @@ syntax on
 
 " Disable BCE to make colorschemes work on tmux
 set t_ut=
-colorscheme fu
+if &diff
+    colorscheme zenburn
+else
+    colorscheme fu
+endif
 
 set tabstop=4 shiftwidth=4 softtabstop=4
 set expandtab
@@ -75,8 +79,10 @@ scriptencoding utf-8
 set fileencodings=utf-8,utf-16le,utf-16be
 set encoding=utf-8
 
-set colorcolumn=81
-hi ColorColumn ctermbg=236 guibg=#444444
+if !&diff
+    set colorcolumn=81
+    hi ColorColumn ctermbg=236 guibg=#444444
+endif
 
 " Window swapping
 function! MarkWindowSwap()
