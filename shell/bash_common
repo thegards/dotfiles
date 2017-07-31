@@ -20,7 +20,7 @@ export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
 
 export SVN_EDITOR=vim
 
-export SSH_AUTH_SOCK=~/keepass.sock
+test -z "$SSH_AUTH_SOCK" && export SSH_AUTH_SOCK=~/keepass.sock
 
 # Outputs the current trunk, branch, or tag
 # (thanks to https://github.com/dtjm/dotfiles)
