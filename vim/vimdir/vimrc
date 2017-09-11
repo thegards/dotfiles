@@ -1,3 +1,23 @@
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'pangloss/vim-javascript'
+Plugin 'leshill/vim-json'
+Plugin 'junegunn/fzf.vim'
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'w0rp/ale'
+"Plugin 'git@github.com:Valloric/YouCompleteMe.git'
+
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+"===============================================================================
+
 if has('win32') || has('win64')
     " Make windows use ~/.vim too, I don't want to use _vimfiles
     set runtimepath^=~/.vim
@@ -50,6 +70,8 @@ au FocusGained * :set rnu | set nonu
 " show absolute line numbers when in insert mode
 au InsertEnter * :set nu | set nornu
 au InsertLeave * :set rnu | set nonu
+
+au BufRead .bash_* :set ft=sh
 
 " navigating with arrow keys in normal mode is a no-no
 nnoremap <Up> <NOP>

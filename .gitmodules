@@ -1,3 +1,6 @@
-[submodule "vim/vimdir/pathogens/nerdtree"]
-	path = vim/vimdir/pathogens/nerdtree
-	url = https://github.com/scrooloose/nerdtree.git
+[submodule "tmux/tmux/plugins/tpm"]
+	path = tmux/tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
+[submodule "tmux/tmuxdir/plugins/tpm"]
+	path = tmux/tmuxdir/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm

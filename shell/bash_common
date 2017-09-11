@@ -20,6 +20,9 @@ export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
 
 export SVN_EDITOR=vim
 
+export GOROOT=/mingw64/lib/go
+export GOPATH=/mingw64
+
 function set_ssh_auth_sock() {
 	if [ x"$OS" = x"Windows_NT" ]; then
 		export SSH_AUTH_SOCK=$HOMEDRIVE$HOMEPATH/keeagent.sock
@@ -75,5 +78,7 @@ BRANCH_COLOR='\e[0;33m'
 NORMAL_COLOR='\e[0m'
 MSYSTEM_COLOR='\e[0;35m'
 
-export PS1="\\[$USER_COLOR\\]\u\\[$HOST_COLOR\\]@\h\\[$WHERE_COLOR\\]:\w\\[$MSYSTEM_COLOR\\]$(__platform_prompt)\\[$BRANCH_COLOR\\]\$(print_git_info)\$(print_svn_info)\\[$NORMAL_COLOR\\]
+export PS1="\\[$USER_COLOR\\]\u\\[$HOST_COLOR\\]@\h\\[$WHERE_COLOR\\]:\w\\[$MSYSTEM_COLOR\\]$(__platform_prompt)\\[$BRANCH_COLOR\\]\\[$NORMAL_COLOR\\]
 \$ "
+#export PS1="\\[$USER_COLOR\\]\u\\[$HOST_COLOR\\]@\h\\[$WHERE_COLOR\\]:\w\\[$MSYSTEM_COLOR\\]$(__platform_prompt)\\[$BRANCH_COLOR\\]\$(print_git_info)\$(print_svn_info)\\[$NORMAL_COLOR\\]
+#\$ "
