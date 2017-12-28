@@ -99,6 +99,24 @@ inoremap <Down> <NOP>
 inoremap <Left> <NOP>
 inoremap <Right> <NOP>
 
+function! YankBuffer()
+	let g:bufops_selected_buffer = bufnr("%")
+endfunction
+
+function! CutBuffer()
+	call YankBuffer()
+	exe 'hide'
+endfunction
+
+function! PasteBuffer()
+	exe 'buf' g:bufops_selected_buffer
+	unlet g:bufops_selected_buffer
+endfunction
+
+map <leader>xb :call CutBuffer()<CR>
+map <leader>yb :call YankBuffer()<CR>
+map <leader>pb :call PasteBuffer()<CR>
+
 "map <C-W> :qa!<Enter>
 
 set laststatus=2
