@@ -1,0 +1,17 @@
+BoldAsFont=no
+FontHeight=16
+Font=Courier New
+Term=xterm-256color
+CursorType=underscore
+Locale=en_US
+Charset=UTF-8
+FontIsBold=yes
+CopyOnSelect=no
+CopyAsRTF=no
+CtrlShiftShortcuts=yes
+Transparency=high
+CursorColour=255,255,128
+FontSmoothing=full
+Columns=100
+Rows=35
+OpaqueWhenFocused=yes
