@@ -8,13 +8,24 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'leshill/vim-json'
-Plugin 'junegunn/fzf.vim'
 Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'w0rp/ale'
+"Plugin 'w0rp/ale'
+Plugin 'skywind3000/asyncrun.vim'
+Plugin 'janko-m/vim-test'
+Plugin 'benmills/vimux'
+Plugin 'aklt/plantuml-syntax'
+"Plugin 'ternjs/tern_for_vim'
+"Plugin 'thegards/vasp.vim'
 "Plugin 'git@github.com:Valloric/YouCompleteMe.git'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
+
+" ALE settings
+let g:ale_sign_column_always = 0 "this is annoying, avoid it
+
+" vim-test settings
+let test#straegy = 'vimux'
 
 "===============================================================================
 
@@ -72,6 +83,8 @@ au InsertEnter * :set nu | set nornu
 au InsertLeave * :set rnu | set nonu
 
 au BufRead .bash_* :set ft=sh
+
+au BufWritePost *.pu :silent make
 
 " navigating with arrow keys in normal mode is a no-no
 nnoremap <Up> <NOP>
