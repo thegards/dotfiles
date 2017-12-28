@@ -63,12 +63,12 @@ set smarttab
 set smartindent
 set wrap
 set bs=indent,eol,start
-set nocompatible
 set foldmethod=syntax
 set foldlevelstart=99
 set scrolloff=50
 set ignorecase
-
+set virtualedit=onemore
+set winwidth=85
 
 " default to relative line numbers
 set relativenumber
@@ -142,8 +142,6 @@ function! DoWindowSwap()
 	exe 'hide buf' markedBuf 
 endfunction
 
-map <F2> :NERDTreeToggle<CR>
-
 nmap <S-F5> :tabp<CR>
 nmap <S-F6> :tabn<CR>
 nmap <F5> <C-w>W
@@ -165,6 +163,3 @@ nmap <silent> <leader>pw :call DoWindowSwap()<CR>
 "    silent execute "!diff -a " . opt .
 "        \ v:fname_in . " " . v:fname_new .  " > " . v:fname_out
 "endfunction
-
-execute pathogen#infect('pathogens/{}')
-
