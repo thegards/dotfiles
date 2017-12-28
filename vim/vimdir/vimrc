@@ -30,8 +30,8 @@ let test#straegy = 'vimux'
 "===============================================================================
 
 if has('win32') || has('win64')
-    " Make windows use ~/.vim too, I don't want to use _vimfiles
-    set runtimepath^=~/.vim
+	" Make windows use ~/.vim too, I don't want to use _vimfiles
+	set runtimepath^=~/.vim
 endif
 
 set path+=include
@@ -48,9 +48,10 @@ syntax on
 " Disable BCE to make colorschemes work on tmux
 set t_ut=
 if &diff
-    colorscheme zenburn
+	colorscheme zenburn
 else
-    colorscheme fu
+	set winwidth=81
+	colorscheme fu
 endif
 
 set scrollopt+=hor
@@ -117,28 +118,28 @@ set fileencodings=utf-8,utf-16le,utf-16be
 set encoding=utf-8
 
 if !&diff
-    set colorcolumn=81
-    hi ColorColumn ctermbg=236 guibg=#444444
+	set colorcolumn=81
+	hi ColorColumn ctermbg=236 guibg=#444444
 endif
 
 " Window swapping
 function! MarkWindowSwap()
-    let g:markedWinNum = winnr()
+	let g:markedWinNum = winnr()
 endfunction
 
 function! DoWindowSwap()
-    "Mark destination
-    let curNum = winnr()
-    let curBuf = bufnr( "%" )
-    exe g:markedWinNum . "wincmd w"
-    "Switch to source and shuffle dest->source
-    let markedBuf = bufnr( "%" )
-    "Hide and open so that we aren't prompted and keep history
-    exe 'hide buf' curBuf
-    "Switch to dest and shuffle source->dest
-    exe curNum . "wincmd w"
-    "Hide and open so that we aren't prompted and keep history
-    exe 'hide buf' markedBuf 
+	"Mark destination
+	let curNum = winnr()
+	let curBuf = bufnr( "%" )
+	exe g:markedWinNum . "wincmd w"
+	"Switch to source and shuffle dest->source
+	let markedBuf = bufnr( "%" )
+	"Hide and open so that we aren't prompted and keep history
+	exe 'hide buf' curBuf
+	"Switch to dest and shuffle source->dest
+	exe curNum . "wincmd w"
+	"Hide and open so that we aren't prompted and keep history
+	exe 'hide buf' markedBuf 
 endfunction
 
 map <F2> :NERDTreeToggle<CR>
