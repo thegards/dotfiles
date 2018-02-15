@@ -18,10 +18,13 @@ export CLICOLOR=1
 # Default linux terminal colors
 export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
 
+export EDITOR=vim
 export SVN_EDITOR=vim
 
-export GOROOT=/mingw64/lib/go
-export GOPATH=/mingw64
+if [ x"$OS" == x"Windows_NT" ]; then
+	export GOROOT=/mingw64/lib/go
+	export GOPATH=/mingw64
+fi
 
 function set_ssh_auth_sock() {
 	if [ x"$OS" = x"Windows_NT" ]; then
