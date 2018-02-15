@@ -1,0 +1,153 @@
+# i3status configuration file.
+# see "man i3status" for documentation.
+
+# It is important that this file is edited as UTF-8.
+# The following line should contain a sharp s:
+# ß
+# If the above line is not correctly displayed, fix your editor first!
+
+general {
+  colors = true
+  interval = 5
+}
+
+order += "group cpu_data"
+order += "group temperatures"
+order += "group network"
+order += "volume master"
+order += "group battery_data"
+order += "tztime local"
+
+group cpu_data {
+  cycle = 5
+  separator_block_width = 15
+  minimum_width = 250
+
+  load {
+    color_good = "#00FF77"
+    color_bad = "#FF0077"
+    format = "γ %1min"
+    min_width = "x xxx%"
+    align = left
+  }
+
+  cpu_usage {
+    format = "Δ  %usage"
+    min_width = "x xxx%"
+    align = left
+  }
+}
+
+group network {
+  cycle = 10
+  separator_block_width = 15
+
+  wireless wlp3s0 {
+    color_good = "#33AA33"
+    color_bad = "#BB3300"
+    format_up = "📶 %quality %ip"
+    format_down = "📶     ---.---.---.---"
+    align = left
+    min_width = "a xxx% xxx.xxx.xxx.xxx"
+  }
+
+  ethernet enp6s0 {
+    color_good = "#CC99BB"
+    format_up = "💻     %ip"
+    format_down = "💻     ---.---.---.---"
+    align = left
+    min_width = "a xxx% xxx.xxx.xxx.xxx"
+  }
+
+  ethernet cscotun0 {
+    color_good = "#BBCC77"
+    format_up = "🔑     %ip"
+    format_down = "🔑     ---.---.---.---"
+    align = left
+    min_width = "a xxx% xxx.xxx.xxx.xxx"
+  }
+}
+
+group temperatures {
+  cycle = 5
+  separator_block_width = 15
+
+  cpu_temperature PKG {
+    color_bad = "#AA3300"
+    format = "PK %degrees °C"
+    path = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp1_input"
+  }
+  cpu_temperature 0 {
+    color_bad = "#AA3300"
+    format = "C0 %degrees °C"
+    path = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp2_input"
+  }
+  cpu_temperature 1 {
+    color_bad = "#AA3300"
+    format = "C1 %degrees °C"
+    path = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp3_input"
+  }
+  cpu_temperature 2 {
+    color_bad = "#AA3300"
+    format = "C2 %degrees °C"
+    path = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp4_input"
+  }
+  cpu_temperature 3 {
+    color_bad = "#AA3300"
+    format = "C3 %degrees °C"
+    path = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp5_input"
+  }
+}
+
+group battery_data {
+  cycle = 5
+  separator_block_width = 15
+
+  battery all {
+    status_chr = "🔌"
+    status_bat = "⚡"
+    status_unk = "?"
+    status_full = "🔋"
+    low_threshold = 15
+    color_chr = "#7777FF"
+    color_bad = "#AA3300"
+    hide_seconds = true
+    last_full_capacity = true
+    integer_battery_capacity = true
+    threshold_type = "time"
+    format = "%status %remaining"
+    align = left
+    min_width = "x xx:xx"
+  }
+
+  battery all2 {
+    status_chr = "🔌"
+    status_bat = "⚡"
+    status_unk = "?"
+    status_full = "🔋"
+    low_threshold = 15
+    color_chr = "#7777FF"
+    color_bad = "#AA3300"
+    hide_seconds = true
+    last_full_capacity = true
+    integer_battery_capacity = true
+    threshold_type = "time"
+    format = "%status   %percentage"
+    align = left
+    min_width = "x xx:xx"
+  }
+}
+
+tztime local {
+  format = "%Y-%m-%d %H:%M"
+  separator_block_width = 15
+}
+
+volume master {
+  device = "pulse:0"
+  format = "♪ %volume"
+  format_muted = "♪ --- "
+  separator_block_width = 15
+  min_width = "x xxx%"
+}
+
