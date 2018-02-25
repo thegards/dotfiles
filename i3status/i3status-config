@@ -19,7 +19,7 @@ order += "group battery_data"
 order += "tztime local"
 
 group cpu_data {
-  cycle = 5
+  cycle = 1
   separator_block_width = 15
   minimum_width = 250
 
@@ -39,7 +39,7 @@ group cpu_data {
 }
 
 group network {
-  cycle = 10
+  cycle = 2
   separator_block_width = 15
 
   wireless wlp3s0 {
@@ -69,7 +69,7 @@ group network {
 }
 
 group temperatures {
-  cycle = 5
+  cycle = 1
   separator_block_width = 15
 
   cpu_temperature PKG {
@@ -100,7 +100,7 @@ group temperatures {
 }
 
 group battery_data {
-  cycle = 5
+  cycle = 2
   separator_block_width = 15
 
   battery all {
