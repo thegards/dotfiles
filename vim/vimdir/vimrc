@@ -70,6 +70,7 @@ set scrolloff=50
 set ignorecase
 set virtualedit=onemore
 set winwidth=85
+set modelines=5
 
 " default to relative line numbers
 set relativenumber
