@@ -1,6 +1,8 @@
 [alias]
 	gl = log --graph --oneline --decorate=short
 	gla = log --graph --oneline --decorate=short --all
+	glnt = log --graph --oneline --decorate=short --exclude='refs/*/tags/*'
+	glant = log --graph --oneline --decorate=short --exclude='refs/*/tags/*' --all
 	whois = "!sh -c 'git log -i -1 --pretty=\"format:%an <%ae>\n\" --author=\"$1\"' -"
 	whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
 	d = difftool
@@ -12,7 +14,18 @@
 	interactive = auto
 [merge]
 	tool = vimdiff
+[mergetool "p4merge"]
+	path = "/c/Program Files/Perforce/p4merge.exe"
+[mergetool "meld"]
+	path = "/d/env/Meld/Meld.exe"
 [diff]
 	tool = vimdiff
+[difftool "p4merge"]
+	path = "/c/Program Files/Perforce/p4merge.exe"
+[difftool "meld"]
+	path = "/d/env/Meld/Meld.exe"
 [difftool]
 	prompt = false
+[user]
+	name = thegards
+	email = gardelli123@gmail.com
