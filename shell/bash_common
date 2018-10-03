@@ -8,10 +8,12 @@ UNAME_S=`uname -s`
 if [ x"${UNAME_S}" = x"Darwin" ]; then
 export PATHADD=/opt/bin:/opt/sbin:${HOME}/brew/bin
 else
-export PATHADD=/opt/bin:/opt/sbin
+export PATHADD="${HOME}/bin::/opt/bin:/opt/sbin"
 fi
-export PATH_ORIG=$PATH
-export PATH=$PATH:$PATHADD
+if [ x"${PATH_ORIG}" == x"" ]; then
+	export PATH_ORIG=${PATH}
+fi
+export PATH=${PATHADD}:${PATH_ORIG}
 
 # Set proper ls colors
 export CLICOLOR=1
