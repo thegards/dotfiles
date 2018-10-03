@@ -1,12 +1,13 @@
-set nocompatible              " be improved, required
+set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
+Plugin 'mileszs/ack.vim'
 Plugin 'VundleVim/Vundle.vim'
-"Plugin 'pangloss/vim-javascript'
+Plugin 'pangloss/vim-javascript'
 Plugin 'leshill/vim-json'
 Plugin 'christoomey/vim-tmux-navigator'
 "Plugin 'w0rp/ale'
@@ -22,7 +23,6 @@ Plugin 'altercation/vim-colors-solarized'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
-
 " YCM settings
 let g:ycm_min_num_of_chars_for_completion = 1
 
@@ -49,15 +49,19 @@ set path+=../../../include
 set path+=../../../src
 
 syntax on
+inoremap <S-q> <esc>:qa!<cr>
+nnoremap <S-q> :qa!<cr>
 
 " Disable BCE to make colorschemes work on tmux
 set t_ut=
 if &diff
-	colorscheme zenburn
+	set winwidth=5
+	set diffopt+=iwhite
 else
 	set winwidth=81
-	colorscheme fu
 endif
+colorscheme fu
+
 
 set scrollopt+=hor
 
@@ -75,6 +79,7 @@ set ignorecase
 set virtualedit=onemore
 set winwidth=85
 set modelines=5
+set textwidth=80
 
 " default to relative line numbers
 set relativenumber
@@ -106,6 +111,8 @@ inoremap <Left> <NOP>
 inoremap <Right> <NOP>
 
 map <C-q> :q!<CR>
+nnoremap <M-.> >G
+nnoremap <M-,> <G
 
 function! YankBuffer()
 	let g:bufops_selected_buffer = bufnr("%")
@@ -128,11 +135,11 @@ map <leader>pb :call PasteBuffer()<CR>
 "map <C-W> :qa!<Enter>
 
 set laststatus=2
-set statusline=%n)\ %f%m%r%h%w\ (%{&ff},%{&fenc}){%Y}\ [%l,%v]%=[%p%%,%L\ lines]
+set statusline=%02n)\ %F%m%r%h%w\ %=(%{&ff},%{&fenc}){%Y}[%05l,%03v][%03p%%,%05LL]
 
 " Highlight current cursor line
-set cul
-hi CursorLine term=bold cterm=bold
+"set cul
+"hi CursorLine term=bold cterm=bold
 
 "inoremap <Tab> <C-V><Tab>
 au BufNewFile,BufReadPre *.mk setlocal noexpandtab
@@ -168,10 +175,43 @@ function! DoWindowSwap()
 	exe 'hide buf' markedBuf 
 endfunction
 
+
+" Thanks to http://vim.wikia.com/wiki/Toggle_to_open_or_close_the_quickfix_window
+function! GetBufferList()
+  redir =>buflist
+  silent! ls!
+  redir END
+  return buflist
+endfunction
+
+function! ToggleList(bufname, pfx, height)
+  let buflist = GetBufferList()
+  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+    if bufwinnr(bufnum) != -1
+      exec(a:pfx.'close')
+      return
+    endif
+  endfor
+  if a:pfx == 'l' && len(getloclist(0)) == 0
+      echohl ErrorMsg
+      echo "Location List is Empty."
+      return
+  endif
+  let winnr = winnr()
+  exec(a:pfx.'open '.a:height)
+  if winnr() != winnr
+    wincmd p
+  endif
+endfunction
+
 nmap <S-F5> :tabp<CR>
 nmap <S-F6> :tabn<CR>
 nmap <F5> <C-w>W
 nmap <F6> <C-w>w
+nmap <silent> <F7> :call ToggleList("Location List", 'l', 5)<CR>
+nmap <silent> <F8> :call ToggleList("Quickfix List", 'c', 5)<CR>
+nmap gr :grep -RIi <cword> --exclude-dir=".svn" --exclude-dir=".git" --exclude-dir="lib" --exclude-dir="lib-other" --exclude="*.min.*" .<CR>
+nmap glr :lgrep -RIi <cword> --exclude-dir=".svn" --exclude-dir=".git" --exclude-dir="lib" --exclude-dir="lib-other" --exclude="*.min.*" .<CR>
 
 nmap <silent> <leader>mw :call MarkWindowSwap()<CR>
 nmap <silent> <leader>pw :call DoWindowSwap()<CR>

@@ -37,9 +37,9 @@ let colors_name = "fu"
 
 " General colors
 hi Normal         ctermfg=252   ctermbg=234                  guifg=#d0d0d0  guibg=#1c1c1c
-hi CursorColumn                 ctermbg=238                                 guibg=#444444
-hi Cursor                       ctermbg=214                                 guibg=#ffaf00
 hi CursorLine                   ctermbg=238                                 guibg=#444444
+hi Cursor                       ctermbg=214                                 guibg=#ffaf00
+hi CursorColumn                 ctermbg=238                                 guibg=#444444
 hi FoldColumn     ctermfg=248   ctermbg=bg                   guifg=#a8a8a8  guibg=#000000
 hi Folded         ctermfg=255   ctermbg=60                   guifg=#eeeeee  guibg=#5f5f87
 hi IncSearch      ctermfg=0     ctermbg=223                  guifg=#000000  guibg=#ffd7af
@@ -103,11 +103,13 @@ hi SpecialComment ctermfg=228   ctermbg=16                   guifg=#ffff87  guib
 hi Error          ctermfg=196   ctermbg=52                   guifg=#ff0000  guibg=#5f0000
 hi Todo           ctermfg=46    ctermbg=22                   guifg=#00ff00  guibg=#005f00
 
+hi SpecialKey     ctermfg=58                                 guifg=#5f5f00
+
 " Diff
-hi diffAdd        ctermfg=bg    ctermbg=151                  guifg=#afd787
-hi diffDelete     ctermfg=bg    ctermbg=246                  guifg=#d78787
-hi diffChange     ctermfg=bg    ctermbg=181                  guifg=#000000  guibg=#afd7af 
-hi diffText       ctermfg=bg    ctermbg=174   cterm=bold     guifg=#000000  guibg=#949494
+hi diffAdd        ctermfg=NONE  ctermbg=23                   guifg=#afd787
+hi diffDelete     ctermfg=bg    ctermbg=96                   guifg=#d78787
+hi diffChange     ctermfg=NONE  ctermbg=17                   guifg=#000000  guibg=#afd7af
+hi diffText       ctermfg=NONE  ctermbg=19    cterm=bold     guifg=#000000  guibg=#949494
 
 " Ruby
 hi rubyBlockParameter        ctermfg=27                      guifg=#005fff
