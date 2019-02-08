@@ -170,24 +170,26 @@ mode "resize" {
 bindsym $mod+p mode "resize"
 
 # Pulse Audio controls
-bindsym Shift+XF86AudioRaiseVolume exec --no-startup-id pamixer -i 5
-bindsym XF86AudioRaiseVolume exec --no-startup-id pamixer -i 1
-bindsym Shift+XF86AudioLowerVolume exec --no-startup-id pamixer -d 5
-bindsym XF86AudioLowerVolume exec --no-startup-id pamixer -d 1
-bindsym XF86AudioMute exec --no-startup-id pamixer -t
+bindsym Shift+XF86AudioRaiseVolume exec --no-startup-id pamixer -i 1 && /bin/sh ~/scripts/show_volume.sh
+bindsym Shift+XF86AudioLowerVolume exec --no-startup-id pamixer -d 1 && /bin/sh ~/scripts/show_volume.sh
+bindsym XF86AudioRaiseVolume       exec --no-startup-id pamixer -i 5 && /bin/sh ~/scripts/show_volume.sh
+bindsym XF86AudioLowerVolume       exec --no-startup-id pamixer -d 5 && /bin/sh ~/scripts/show_volume.sh
+bindsym XF86AudioMute              exec --no-startup-id pamixer -t   && /bin/sh ~/scripts/show_volume.sh
 
 # Sreen brightness controls
-#bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
-#bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+bindsym XF86MonBrightnessUp        exec --no-startup-id /bin/sh ~/scripts/show_brightness.sh
+bindsym XF86MonBrightnessDown      exec --no-startup-id /bin/sh ~/scripts/show_brightness.sh
 
 # Touchpad controls
-#bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad
+bindsym XF86TouchpadToggle exec --no-startup-id /bin/sh ~/scripts/toggle_touchpad.sh
 
 # Media player controls
-bindsym XF86AudioPlay exec mpc toggle
-bindsym XF86AudioPause exec mpc pause
-bindsym XF86AudioNext exec mpc next
-bindsym XF86AudioPrev exec mpc previous
+bindsym XF86AudioPlay  exec mpc toggle && /bin/sh ~/scripts/show_media_status.sh
+bindsym XF86AudioPause exec mpc pause  && /bin/sh ~/scripts/show_media_status.sh
+bindsym XF86AudioNext  exec mpc next   && /bin/sh ~/scripts/show_media_status.sh
+bindsym XF86AudioPrev  exec mpc prev   && /bin/sh ~/scripts/show_media_status.sh
+
+bindsym $mod+b bar hidden_state toggle
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)

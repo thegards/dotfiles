@@ -39,7 +39,7 @@ group cpu_data {
 }
 
 group network {
-  cycle = 2
+  cycle = 1
   separator_block_width = 15
 
   wireless wlp3s0 {
