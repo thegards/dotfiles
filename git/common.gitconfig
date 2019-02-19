@@ -10,6 +10,8 @@
 	status = auto
 	branch = auto
 	interactive = auto
+[merge]
+	tool = vimdiff
 [diff]
 	tool = vimdiff
 [difftool]

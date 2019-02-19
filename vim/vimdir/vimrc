@@ -6,21 +6,25 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'pangloss/vim-javascript'
+"Plugin 'pangloss/vim-javascript'
 Plugin 'leshill/vim-json'
 Plugin 'christoomey/vim-tmux-navigator'
 "Plugin 'w0rp/ale'
-Plugin 'skywind3000/asyncrun.vim'
-Plugin 'janko-m/vim-test'
-Plugin 'benmills/vimux'
-Plugin 'aklt/plantuml-syntax'
+"Plugin 'skywind3000/asyncrun.vim'
+"Plugin 'janko-m/vim-test'
+"Plugin 'benmills/vimux'
+"Plugin 'aklt/plantuml-syntax'
 Plugin 'chrisbra/vim-diff-enhanced'
-"Plugin 'ternjs/tern_for_vim'
-"Plugin 'thegards/vasp.vim'
-"Plugin 'git@github.com:Valloric/YouCompleteMe.git'
+"Plugin 'OmniSharp/omnisharp-vim'
+Plugin 'vim-syntastic/syntastic'
+"Plugin 'Valloric/YouCompleteMe'
+Plugin 'altercation/vim-colors-solarized'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
+
+" YCM settings
+let g:ycm_min_num_of_chars_for_completion = 1
 
 " ALE settings
 let g:ale_sign_column_always = 0 "this is annoying, avoid it

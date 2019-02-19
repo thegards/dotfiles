@@ -11,7 +11,7 @@ fi
 #alias tmux="TERM=screen-256color tmux -u -2"
 alias tmux="tmux -u -2"
 
-if [ -n `which mopidy` ]; then
+if [ -n `which mopidy 2> /dev/null` ]; then
     alias mopstart='nohup mopidy &> ~/logs/mopidy.log &'
 fi
 

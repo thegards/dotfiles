@@ -3,3 +3,4 @@ then
     source ~/.bash_common
 fi
 
+[[ -n ${DISPLAY} && -z ${TMUX} ]] && exec tmux
