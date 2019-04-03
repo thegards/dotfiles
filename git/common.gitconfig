@@ -14,6 +14,7 @@
 	interactive = auto
 [merge]
 	tool = vimdiff
+	conflictstyle = diff3
 [mergetool "p4merge"]
 	path = "/c/Program Files/Perforce/p4merge.exe"
 [mergetool "meld"]
