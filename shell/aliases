@@ -1,17 +1,18 @@
+# vim: set ts=2 sts=2 sw=2 noexpandtab ft=sh:
 UNAME=`uname`
 
 if [ "x$UNAME" == "xDarwin" ]; then
-    alias ls="ls -G"
+	alias ls="ls -G"
 elif [ "x$UNAME" == "xMINGW32_NT-6.2" ]; then
-    alias ls="ls --color"
+	alias ls="ls --color"
 else
-    alias ls="ls --color --group-directories-first"
+	alias ls="ls --color --group-directories-first"
 fi
 
 #alias tmux="TERM=screen-256color tmux -u -2"
-alias tmux="tmux -u -2"
+#alias tmux="tmux -u -2"
 
 if [ -n `which mopidy 2>/dev/null` ]; then
-    alias mopstart='nohup mopidy &> ~/logs/mopidy.log &'
+	alias mopstart='nohup mopidy &> ~/logs/mopidy.log &'
 fi
 
