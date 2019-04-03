@@ -1,9 +1,6 @@
-[submodule "tmux/tmux/plugins/tpm"]
-	path = tmux/tmux/plugins/tpm
-	url = https://github.com/tmux-plugins/tpm
-[submodule "tmux/tmuxdir/plugins/tpm"]
+[submodule "tmux-plugin-managel"]
 	path = tmux/tmuxdir/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
-[submodule "vim/vimdir/bundle/Vundle.vim"]
+[submodule "vundle.vim"]
 	path = vim/vimdir/bundle/Vundle.vim
 	url = https://github.com/VundleVim/Vundle.vim
