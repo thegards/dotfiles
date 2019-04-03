@@ -1,85 +1,134 @@
+"== Plugin Setup ===============================================================
+
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+if !has('gui_running')
+	" set the runtime path to include Vundle and initialize
+	set rtp+=~/.vim/bundle/Vundle.vim
+	call vundle#begin()
 
-Plugin 'mileszs/ack.vim'
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'pangloss/vim-javascript'
-Plugin 'leshill/vim-json'
-Plugin 'christoomey/vim-tmux-navigator'
-"Plugin 'w0rp/ale'
-"Plugin 'skywind3000/asyncrun.vim'
-"Plugin 'janko-m/vim-test'
-"Plugin 'benmills/vimux'
-"Plugin 'aklt/plantuml-syntax'
-Plugin 'chrisbra/vim-diff-enhanced'
-"Plugin 'OmniSharp/omnisharp-vim'
-Plugin 'vim-syntastic/syntastic'
-"Plugin 'Valloric/YouCompleteMe'
-Plugin 'altercation/vim-colors-solarized'
+	Plugin 'VundleVim/Vundle.vim'
 
-call vundle#end()            " required
-filetype plugin indent on    " required
-" YCM settings
-let g:ycm_min_num_of_chars_for_completion = 1
+	Plugin 'vim-scripts/a.vim'
+	Plugin 'leshill/vim-json'
+	Plugin 'maksimr/vim-jsbeautify'
+	Plugin 'burnettk/vim-angular'
+	Plugin 'pangloss/vim-javascript'
+	Plugin 'tpope/vim-fugitive'
 
-" ALE settings
-let g:ale_sign_column_always = 0 "this is annoying, avoid it
+	Plugin 'chrisbra/vim-diff-enhanced'
+	Plugin 'benmills/vimux'
+	Plugin 'christoomey/vim-tmux-navigator'
 
-" vim-test settings
-let test#straegy = 'vimux'
+	Plugin 'janko-m/vim-test'
+	Plugin 'skywind3000/asyncrun.vim'
 
-"===============================================================================
+	Plugin 'tfnico/vim-gradle'
+	Plugin 'vim-syntastic/syntastic'
+	Plugin 'aklt/plantuml-syntax'
+
+	Plugin 'vim-airline/vim-airline'
+	Plugin 'vim-airline/vim-airline-themes'
+
+	call vundle#end()            " required
+	filetype plugin indent on    " required
+
+	" ALE settings
+	let g:ale_sign_column_always = 0 "this is annoying, avoid it
+
+	" vim-test settings
+	let test#straegy = 'vimux'
+
+	let g:syntastic_javascript_checkers = ['eslint']
+	let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute " ,"trimming empty \<", "inserting implicit ", "unescaped \&" , "lacks \"action", "lacks value", "lacks \"src", "is not recognized!", "discarding unexpected", "replacing obsolete "]
+endif
+
+"== General Setup ==============================================================
 
 if has('win32') || has('win64')
 	" Make windows use ~/.vim too, I don't want to use _vimfiles
 	set runtimepath^=~/.vim
 endif
 
-set path+=include
-set path+=src
-set path+=../include
-set path+=../src
-set path+=../../include
-set path+=../../src
-set path+=../../../include
-set path+=../../../src
-
 syntax on
-inoremap <S-q> <esc>:qa!<cr>
-nnoremap <S-q> :qa!<cr>
 
 " Disable BCE to make colorschemes work on tmux
 set t_ut=
+set t_Co=256
+if !has('gui_running')
+	colorscheme fu
+endif
+
+" navigating with arrow keys in normal mode is a no-no
+nnoremap <Up> <NOP>
+nnoremap <Down> <NOP>
+nnoremap <Left> <NOP>
+nnoremap <Right> <NOP>
+
+" Use all utf-8 for encoding a file.
+scriptencoding utf-8
+set fileencodings=utf-8,utf-16le,utf-16be
+set encoding=utf-8
+
+set textwidth=80
 if &diff
 	set winwidth=5
 	set diffopt+=iwhite
 else
-	set winwidth=81
+	set foldmethod=syntax
+	set foldlevelstart=99
+	set winwidth=85
+	set colorcolumn=+1
+	hi  ColorColumn ctermbg=236 guibg=#444444
 endif
-colorscheme fu
-
 
 set scrollopt+=hor
 
-set tabstop=2 shiftwidth=2 softtabstop=2
-set noexpandtab
-set list listchars=tab:\|-,trail:~,extends:>,precedes:<
-set smarttab
-set smartindent
+" Default indent style
+set tabstop=2 shiftwidth=2 softtabstop=2 noexpandtab
+
+" UTF-8 Visual aids setup.
+set showbreak=↪\ 
+set fillchars=vert:│,stl:-
+set list listchars=tab:\|-,trail:~,extends:›,precedes:‹,nbsp:␣,eol:↲,space:·
+nmap <silent> <F9> :set list!<CR>
+
 set wrap
 set bs=indent,eol,start
-set foldmethod=syntax
-set foldlevelstart=99
-set scrolloff=50
 set ignorecase
 set virtualedit=onemore
-set winwidth=85
 set modelines=5
-set textwidth=80
+
+" Keep the cursor always centered
+set scrolloff=999
+
+" Statusline setup - Show buffer number, buffer filename
+"set laststatus=2
+"set statusline=%02n)\ %F%m%r%h%w\ %{FugitiveStatusline()}%=\ (%{&ff},%{&fenc}){%Y}[%05l,%03v][%03p%%,%05LL]
+"set statusline=%02n)\ %F%m%r%h%w\ %=\ (%{&ff},%{&fenc}){%Y}[%05l,%03v][%03p%%,%05LL]
+
+" Highlight current cursor line
+set cul
+hi CursorLine term=underline cterm=underline ctermbg=none
+
+" General filetype management
+au BufWritePost          *.pu      :silent make
+au BufNewFile,BufReadPre *.mk      setlocal noexpandtab
+au BufNewFile,BufReadPre Makefile* setlocal noexpandtab
+
+" Window navigation
+nmap <S-F5> :tabp<CR>
+nmap <S-F6> :tabn<CR>
+nmap <F5> <C-w>W
+nmap <F6> <C-w>w
+
+" Grep commands
+nmap gR :grep -RIi <cword> --exclude-dir=".svn" --exclude-dir=".git" --exclude-dir="lib" --exclude-dir="lib-other" --exclude="*.min.*" .
+nmap gr :grep -RIi <cword> --exclude-dir=".svn" --exclude-dir=".git" --exclude-dir="lib" --exclude-dir="lib-other" --exclude="*.min.*" .<CR>
+nmap glr :lgrep -RIi <cword> --exclude-dir=".svn" --exclude-dir=".git" --exclude-dir="lib" --exclude-dir="lib-other" --exclude="*.min.*" .<CR>
+
+"= Line number display Setup ===================================================
 
 " default to relative line numbers
 set relativenumber
@@ -94,25 +143,26 @@ au FocusGained * :set rnu | set nonu
 au InsertEnter * :set nu | set nornu
 au InsertLeave * :set rnu | set nonu
 
-au BufRead .bash_* :set ft=sh
+"= Window and buffer management setup ==========================================
 
-au BufWritePost *.pu :silent make
+function! MarkWindow()
+	let g:markedWinNum = winnr()
+endfunction
 
-" navigating with arrow keys in normal mode is a no-no
-nnoremap <Up> <NOP>
-nnoremap <Down> <NOP>
-nnoremap <Left> <NOP>
-nnoremap <Right> <NOP>
-
-" try to stick to normal mode for navigating
-inoremap <Up> <NOP>
-inoremap <Down> <NOP>
-inoremap <Left> <NOP>
-inoremap <Right> <NOP>
-
-map <C-q> :q!<CR>
-nnoremap <M-.> >G
-nnoremap <M-,> <G
+function! SwapMarkedWindow()
+	"Mark destination
+	let curNum = winnr()
+	let curBuf = bufnr( "%" )
+	exe g:markedWinNum . "wincmd w"
+	"Switch to source and shuffle dest->source
+	let markedBuf = bufnr( "%" )
+	"Hide and open so that we aren't prompted and keep history
+	exe 'hide buf' curBuf
+	"Switch to dest and shuffle source->dest
+	exe curNum . "wincmd w"
+	"Hide and open so that we aren't prompted and keep history
+	exe 'hide buf' markedBuf 
+endfunction
 
 function! YankBuffer()
 	let g:bufops_selected_buffer = bufnr("%")
@@ -128,104 +178,41 @@ function! PasteBuffer()
 	unlet g:bufops_selected_buffer
 endfunction
 
-map <leader>xb :call CutBuffer()<CR>
-map <leader>yb :call YankBuffer()<CR>
-map <leader>pb :call PasteBuffer()<CR>
+nmap <leader>xb :call CutBuffer()<CR>
+nmap <leader>yb :call YankBuffer()<CR>
+nmap <leader>pb :call PasteBuffer()<CR>
+nmap <silent> <leader>mw :call MarkWindow()<CR>
+nmap <silent> <leader>pw :call SwapMarkedWindow()<CR>
 
-"map <C-W> :qa!<Enter>
-
-set laststatus=2
-set statusline=%02n)\ %F%m%r%h%w\ %=(%{&ff},%{&fenc}){%Y}[%05l,%03v][%03p%%,%05LL]
-
-" Highlight current cursor line
-"set cul
-"hi CursorLine term=bold cterm=bold
-
-"inoremap <Tab> <C-V><Tab>
-au BufNewFile,BufReadPre *.mk setlocal noexpandtab
-au BufNewFile,BufReadPre Makefile* setlocal noexpandtab
-
-" Use all utf-8 for encoding a file.
-scriptencoding utf-8
-set fileencodings=utf-8,utf-16le,utf-16be
-set encoding=utf-8
-
-if !&diff
-	set colorcolumn=81
-	hi ColorColumn ctermbg=236 guibg=#444444
-endif
-
-" Window swapping
-function! MarkWindowSwap()
-	let g:markedWinNum = winnr()
-endfunction
-
-function! DoWindowSwap()
-	"Mark destination
-	let curNum = winnr()
-	let curBuf = bufnr( "%" )
-	exe g:markedWinNum . "wincmd w"
-	"Switch to source and shuffle dest->source
-	let markedBuf = bufnr( "%" )
-	"Hide and open so that we aren't prompted and keep history
-	exe 'hide buf' curBuf
-	"Switch to dest and shuffle source->dest
-	exe curNum . "wincmd w"
-	"Hide and open so that we aren't prompted and keep history
-	exe 'hide buf' markedBuf 
-endfunction
-
+"= Quicklist management Setup ==================================================
 
 " Thanks to http://vim.wikia.com/wiki/Toggle_to_open_or_close_the_quickfix_window
 function! GetBufferList()
-  redir =>buflist
-  silent! ls!
-  redir END
-  return buflist
+	redir =>buflist
+	silent! ls!
+	redir END
+	return buflist
 endfunction
 
 function! ToggleList(bufname, pfx, height)
-  let buflist = GetBufferList()
-  for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
-    if bufwinnr(bufnum) != -1
-      exec(a:pfx.'close')
-      return
-    endif
-  endfor
-  if a:pfx == 'l' && len(getloclist(0)) == 0
-      echohl ErrorMsg
-      echo "Location List is Empty."
-      return
-  endif
-  let winnr = winnr()
-  exec(a:pfx.'open '.a:height)
-  if winnr() != winnr
-    wincmd p
-  endif
+	let buflist = GetBufferList()
+	for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
+		if bufwinnr(bufnum) != -1
+			exec(a:pfx.'close')
+			return
+		endif
+	endfor
+	if a:pfx == 'l' && len(getloclist(0)) == 0
+		echohl ErrorMsg
+		echo "Location List is Empty."
+		return
+	endif
+	let winnr = winnr()
+	exec(a:pfx.'open '.a:height)
+	if winnr() != winnr
+		wincmd p
+	endif
 endfunction
 
-nmap <S-F5> :tabp<CR>
-nmap <S-F6> :tabn<CR>
-nmap <F5> <C-w>W
-nmap <F6> <C-w>w
 nmap <silent> <F7> :call ToggleList("Location List", 'l', 5)<CR>
 nmap <silent> <F8> :call ToggleList("Quickfix List", 'c', 5)<CR>
-nmap gr :grep -RIi <cword> --exclude-dir=".svn" --exclude-dir=".git" --exclude-dir="lib" --exclude-dir="lib-other" --exclude="*.min.*" .<CR>
-nmap glr :lgrep -RIi <cword> --exclude-dir=".svn" --exclude-dir=".git" --exclude-dir="lib" --exclude-dir="lib-other" --exclude="*.min.*" .<CR>
-
-nmap <silent> <leader>mw :call MarkWindowSwap()<CR>
-nmap <silent> <leader>pw :call DoWindowSwap()<CR>
-
-"set diffopt+=iwhite
-"set diffexpr=PatientDiff()
-"function PatientDiff()
-"    let opt = ""
-"    if &diffopt =~ "icase"
-"        let opt = opt . "-i "
-"    endif
-"    if &diffopt =~ "iwhite"
-"        let opt = opt . "-w " " swapped vim's -b with -w
-"    endif
-"    silent execute "!diff -a " . opt .
-"        \ v:fname_in . " " . v:fname_new .  " > " . v:fname_out
-"endfunction
