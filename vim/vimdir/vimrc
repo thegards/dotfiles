@@ -1,3 +1,4 @@
+" vim: set ts=2 sts=2 sw=2 noexpandtab nowrap:
 "== Plugin Setup ===============================================================
 
 set nocompatible              " be iMproved, required
@@ -11,22 +12,25 @@ if !has('gui_running')
 	Plugin 'VundleVim/Vundle.vim'
 
 	Plugin 'vim-scripts/a.vim'
-	Plugin 'leshill/vim-json'
+	Plugin 'elzr/vim-json'
 	Plugin 'maksimr/vim-jsbeautify'
 	Plugin 'burnettk/vim-angular'
 	Plugin 'pangloss/vim-javascript'
 	Plugin 'tpope/vim-fugitive'
 
 	Plugin 'chrisbra/vim-diff-enhanced'
+	Plugin 'editorconfig/editorconfig-vim'
 	Plugin 'benmills/vimux'
 	Plugin 'christoomey/vim-tmux-navigator'
 
 	Plugin 'janko-m/vim-test'
 	Plugin 'skywind3000/asyncrun.vim'
 
-	Plugin 'tfnico/vim-gradle'
+	Plugin 'hdiniz/vim-gradle' "Gradle build integration
 	Plugin 'vim-syntastic/syntastic'
 	Plugin 'aklt/plantuml-syntax'
+	Plugin 'hashivim/vim-terraform'
+	Plugin 'udalov/kotlin-vim'
 
 	Plugin 'vim-airline/vim-airline'
 	Plugin 'vim-airline/vim-airline-themes'
@@ -34,12 +38,14 @@ if !has('gui_running')
 	call vundle#end()            " required
 	filetype plugin indent on    " required
 
-	" ALE settings
-	let g:ale_sign_column_always = 0 "this is annoying, avoid it
-
 	" vim-test settings
 	let test#straegy = 'vimux'
 
+	let g:syntastic_always_populate_loc_list = 1
+	let g:syntastic_auto_loc_list = 1
+	let g:syntastic_check_on_wq = 0
+
+	let g:syntastic_json_checkers = ['jsonlint-php']
 	let g:syntastic_javascript_checkers = ['eslint']
 	let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute " ,"trimming empty \<", "inserting implicit ", "unescaped \&" , "lacks \"action", "lacks value", "lacks \"src", "is not recognized!", "discarding unexpected", "replacing obsolete "]
 endif
@@ -59,12 +65,6 @@ set t_Co=256
 if !has('gui_running')
 	colorscheme fu
 endif
-
-" navigating with arrow keys in normal mode is a no-no
-nnoremap <Up> <NOP>
-nnoremap <Down> <NOP>
-nnoremap <Left> <NOP>
-nnoremap <Right> <NOP>
 
 " Use all utf-8 for encoding a file.
 scriptencoding utf-8
@@ -89,9 +89,9 @@ set scrollopt+=hor
 set tabstop=2 shiftwidth=2 softtabstop=2 noexpandtab
 
 " UTF-8 Visual aids setup.
-set showbreak=↪\ 
+set showbreak=>\ 
 set fillchars=vert:│,stl:-
-set list listchars=tab:\|-,trail:~,extends:›,precedes:‹,nbsp:␣,eol:↲,space:·
+set list listchars=tab:\|-,trail:~,eol:$,space:·
 nmap <silent> <F9> :set list!<CR>
 
 set wrap
