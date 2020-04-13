@@ -191,22 +191,19 @@ bindsym             $mod+Ctrl+F12                       move container to worksp
 # Status bar configuration                                                     #
 ################################################################################
 bar {
-  i3bar_command                                         i3bar
-  status_command                                        i3status
+  workspace_buttons                                     no
   position                                              bottom
   bindsym button4                                       nop
   bindsym button5                                       nop
+  tray_output                                           primary
+  status_command                                        i3status
+}
+
+bar {
   strip_workspace_numbers                               yes
-  #colors {
-  #  background                                          #222D31
-  #  statusline                                          #F9FAF9
-  #  separator                                           #454947
-  #  focused_workspace                                   #F9FAF9 #16a085 #292F34
-  #  active_workspace                                    #595B5B #353836 #FDF6E3
-  #  inactive_workspace                                  #595B5B #222D31 #EEE8D5
-  #  binding_mode                                        #16a085 #2C2C2C #F9FAF9
-  #  urgent_workspace                                    #16a085 #FDF6E3 #E5201D
-  #}
+  position                                              top
+  tray_output                                           none
+  binding_mode_indicator                                no
 }
 
 ################################################################################
@@ -215,13 +212,13 @@ bar {
 set                 $mode_system                        (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 bindsym             $mod+Escape                         mode "$mode_system"
 mode "$mode_system" {
-  bindsym           l                                   exec --no-startup-id i3exit lock, mode "default"
-  bindsym           s                                   exec --no-startup-id i3exit suspend, mode "default"
-  bindsym           u                                   exec --no-startup-id i3exit switch_user, mode "default"
-  bindsym           e                                   exec --no-startup-id i3exit logout, mode "default"
-  bindsym           h                                   exec --no-startup-id i3exit hibernate, mode "default"
-  bindsym           r                                   exec --no-startup-id i3exit reboot, mode "default"
-  bindsym           Shift+s                             exec --no-startup-id i3exit shutdown, mode "default"
+  bindsym           l                                   exec --no-startup-id ~/script/i3exit lock, mode "default"
+  bindsym           s                                   exec --no-startup-id ~/script/i3exit suspend, mode "default"
+  bindsym           u                                   exec --no-startup-id ~/script/i3exit switch_user, mode "default"
+  bindsym           e                                   exec --no-startup-id ~/script/i3exit logout, mode "default"
+  bindsym           h                                   exec --no-startup-id ~/script/i3exit hibernate, mode "default"
+  bindsym           r                                   exec --no-startup-id ~/script/i3exit reboot, mode "default"
+  bindsym           Shift+s                             exec --no-startup-id ~/script/i3exit shutdown, mode "default"
   bindsym           Return                              mode "default"
   bindsym           Escape                              mode "default"
 }
