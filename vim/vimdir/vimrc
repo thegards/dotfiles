@@ -27,6 +27,7 @@ if !has('gui_running')
 	Plugin 'skywind3000/asyncrun.vim'
 
 	Plugin 'hdiniz/vim-gradle' "Gradle build integration
+	Plugin 'mikelue/vim-maven-plugin'
 	Plugin 'vim-syntastic/syntastic'
 	Plugin 'aklt/plantuml-syntax'
 	Plugin 'hashivim/vim-terraform'
