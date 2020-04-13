@@ -1,0 +1,47 @@
+#!/bin/sh
+# /usr/bin/i3exit
+
+# with openrc use loginctl
+[ "$(cat /proc/1/comm)" = "systemd" ] && logind=systemctl || logind=loginctl
+
+awesome_lock() {
+  i3lock -i /usr/share/backgrounds/watercolor-grunge-png.png
+  #i3lock -i /usr/share/backgrounds/wallpapers-juhraya/Manjaro\ Juhraya\ \(clean\)\ -\ Mr_Glitch\(Projekt:Root\).png
+  #i3lock -i /usr/share/backgrounds/wallpapers-juhraya/Manjaro\ Juhraya\ -\ dark_2.png
+  #i3lock -i /usr/share/backgrounds/wallpapers-juhraya/Manjaro\ Juhraya\ -\ Mr_Glitch\(Projekt:Root\).png
+  #i3lock -i /usr/share/backgrounds/wallpapers-juhraya/Manjaro\ Juhraya_next.png
+  #i3lock -i /usr/share/backgrounds/wallpapers-juhraya/Manjaro\ Juhraya\ -\ simple_dark.png
+  #i3lock -i /usr/share/backgrounds/wallpapers-juhraya/Manjaro\ Juhraya_square.png
+  #i3lock -i /usr/share/backgrounds/wallpapers-juhraya/Manjaro\ Juhraya_wave.png
+  #i3lock -i /usr/share/backgrounds/wallpapers-juhraya/Manjaro\ Juhraya\ \(without\ blur\)\ -\ Mr_Glitch\(Projekt:Root\).png
+}
+
+case "$1" in
+  lock)
+    awesome_lock
+    ;;
+  logout)
+    i3-msg exit
+    ;;
+  switch_user)
+    dm-tool switch-to-greeter
+    ;;
+  suspend)
+    awesome_lock && $logind suspend
+    ;;
+  hibernate)
+    awesome_lock && $logind hibernate
+    ;;
+  reboot)
+    $logind reboot
+    ;;
+  shutdown)
+    $logind poweroff
+    ;;
+  *)
+    echo "== ! i3exit: missing or invalid argument ! =="
+    echo "Try again with: lock | logout | switch_user | suspend | hibernate | reboot | shutdown"
+    exit 2
+esac
+
+exit 0

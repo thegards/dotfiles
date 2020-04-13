@@ -17,7 +17,7 @@ default_border                              pixel 1
 default_floating_border                     normal
 
 # Misc
-font                                        xft:URWGothic-Book 16
+font                                        xft:DejaVu Sans Mono 14
 floating_modifier                           $mod
 workspace_auto_back_and_forth               yes
 
@@ -60,10 +60,10 @@ bindsym             $mod+Shift+$nav_left                move left
 bindsym             $mod+Shift+$nav_right               move right
 bindsym             $mod+Shift+$nav_up                  move up
 bindsym             $mod+Shift+$nav_down                move down
-bindsym             $mod+Ctrl+$nav_left                 workspace prev
-bindsym             $mod+Ctrl+$nav_right                workspace next
-bindsym             $mod+Tab                            workspace back_and_forth
-bindsym             $mod+Shift+Tab                      move container to workspace back_and_forth; workspace back_and_forth
+bindsym             $mod+Tab                            workspace next
+bindsym             $mod+Shift+Tab                      workspace prev
+bindsym             $mod+Ctrl+Tab                       workspace back_and_forth
+bindsym             $mod+Ctrl+Shift+Tab                 move container to workspace back_and_forth; workspace back_and_forth
 
 # Layout
 bindsym             $mod+backslash                      split toggle
@@ -87,8 +87,9 @@ bindsym             $mod+Shift+semicolon                move scratchpad
 bindsym             $mod+m                              bar mode toggle
 bindsym             $mod+Shift+c                        reload
 bindsym             $mod+Shift+r                        restart
-bindsym             $mod+Shift+e                        exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
-bindsym             $mod+BackSpace                      exec --no-startup-id blurlock
+bindsym             $mod+Shift+e                        exec "i3-nagbar -t warning -f'DejaVu Sans:18' -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+#bindsym             $mod+BackSpace                      exec --no-startup-id blurlock
+bindsym             $mod+BackSpace                      exec --no-startup-id ~/script/i3exit lock
 
 ################################################################################
 # Workspace management                                                         #
@@ -111,10 +112,14 @@ set                 $ws15                               15
 set                 $ws16                               16
 set                 $ws17                               17
 set                 $ws18                               18
-set                 $ws19                               19
-set                 $ws20                               20
-set                 $ws21                               21
-set                 $ws22                               22
+# Comms
+set                 $ws19                               19:👤
+# E-mail
+set                 $ws20                               20:📩
+# Calendar
+set                 $ws21                               21:📅
+# Keepass
+set                 $ws22                               22:🔑
 bindsym             $mod+1                              workspace $ws01
 bindsym             $mod+2                              workspace $ws02
 bindsym             $mod+3                              workspace $ws03
@@ -208,7 +213,7 @@ bar {
 # Mode overlays                                                                #
 ################################################################################
 set                 $mode_system                        (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
-bindsym             $mod+Ctrl+Escape                    mode "$mode_system"
+bindsym             $mod+Escape                         mode "$mode_system"
 mode "$mode_system" {
   bindsym           l                                   exec --no-startup-id i3exit lock, mode "default"
   bindsym           s                                   exec --no-startup-id i3exit suspend, mode "default"
@@ -222,7 +227,7 @@ mode "$mode_system" {
 }
 set                 $mode_resize                        resize: (h) <- ; (l) -> ; (k) ^ ; (j) v
 bindsym             $mod+Ctrl+r                         mode "$mode_resize"
-mode "resize" {
+mode "$mode_resize" {
   bindsym           l                                   resize grow width 5 px or 5 ppt
   bindsym           h                                   resize shrink width 5 px or 5 ppt
   bindsym           k                                   resize grow height 5 px or 5 ppt
@@ -324,14 +329,15 @@ for_window          [urgent=latest]                     focus
 # Startup applications                                                         #
 ################################################################################
 exec        --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec        --no-startup-id nitrogen --restore; sleep 1; compton -b
+exec        --no-startup-id nitrogen --restore #; sleep 1; compton -b
 exec        --no-startup-id xfce4-power-manager
 exec        --no-startup-id pamac-tray
 exec        --no-startud-id blueman-applet
 exec        --no-startup-id clipit
-exec        --no-startup-id start_conky_maia
-exec        --no-startup-id xautolock -time 10 -locker blurlock
+exec        --no-startup-id conky -c ~/script/conky.conf
+exec        --no-startup-id xautolock -time 10 -locker ~/script/i3exit lock
 exec        --no-startup-id volumeicon
+exec        --no-startup-id nm-applet
 exec_always --no-startup-id sbxkb
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
