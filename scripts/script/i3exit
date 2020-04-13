@@ -5,15 +5,7 @@
 [ "$(cat /proc/1/comm)" = "systemd" ] && logind=systemctl || logind=loginctl
 
 awesome_lock() {
-  i3lock -i /usr/share/backgrounds/watercolor-grunge-png.png
-  #i3lock -i /usr/share/backgrounds/wallpapers-juhraya/Manjaro\ Juhraya\ \(clean\)\ -\ Mr_Glitch\(Projekt:Root\).png
-  #i3lock -i /usr/share/backgrounds/wallpapers-juhraya/Manjaro\ Juhraya\ -\ dark_2.png
-  #i3lock -i /usr/share/backgrounds/wallpapers-juhraya/Manjaro\ Juhraya\ -\ Mr_Glitch\(Projekt:Root\).png
-  #i3lock -i /usr/share/backgrounds/wallpapers-juhraya/Manjaro\ Juhraya_next.png
-  #i3lock -i /usr/share/backgrounds/wallpapers-juhraya/Manjaro\ Juhraya\ -\ simple_dark.png
-  #i3lock -i /usr/share/backgrounds/wallpapers-juhraya/Manjaro\ Juhraya_square.png
-  #i3lock -i /usr/share/backgrounds/wallpapers-juhraya/Manjaro\ Juhraya_wave.png
-  #i3lock -i /usr/share/backgrounds/wallpapers-juhraya/Manjaro\ Juhraya\ \(without\ blur\)\ -\ Mr_Glitch\(Projekt:Root\).png
+  i3lock -c 252525 -p default
 }
 
 case "$1" in
