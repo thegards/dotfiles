@@ -1,55 +1,62 @@
-" vim: set ts=2 sts=2 sw=2 noexpandtab nowrap:
+" vim:ts=2:sts=2:sw=2:noet:nowrap
 "== Plugin Setup ===============================================================
 
-set nocompatible              " be iMproved, required
-filetype off                  " required
-
-if !has('gui_running')
-	" set the runtime path to include Vundle and initialize
-	set rtp+=~/.vim/bundle/Vundle.vim
-	call vundle#begin()
-
-	Plugin 'VundleVim/Vundle.vim'
-
-	Plugin 'vim-scripts/a.vim'
-	Plugin 'elzr/vim-json'
-	Plugin 'maksimr/vim-jsbeautify'
-	Plugin 'burnettk/vim-angular'
-	Plugin 'pangloss/vim-javascript'
-	Plugin 'tpope/vim-fugitive'
-
-	Plugin 'chrisbra/vim-diff-enhanced'
-	Plugin 'editorconfig/editorconfig-vim'
-	Plugin 'benmills/vimux'
-	Plugin 'christoomey/vim-tmux-navigator'
-
-	Plugin 'janko-m/vim-test'
-	Plugin 'skywind3000/asyncrun.vim'
-
-	Plugin 'hdiniz/vim-gradle' "Gradle build integration
-	Plugin 'mikelue/vim-maven-plugin'
-	Plugin 'vim-syntastic/syntastic'
-	Plugin 'aklt/plantuml-syntax'
-	Plugin 'hashivim/vim-terraform'
-	Plugin 'udalov/kotlin-vim'
-
-	Plugin 'vim-airline/vim-airline'
-	Plugin 'vim-airline/vim-airline-themes'
-
-	call vundle#end()            " required
-	filetype plugin indent on    " required
-
-	" vim-test settings
-	let test#straegy = 'vimux'
-
-	let g:syntastic_always_populate_loc_list = 1
-	let g:syntastic_auto_loc_list = 1
-	let g:syntastic_check_on_wq = 0
-
-	let g:syntastic_json_checkers = ['jsonlint-php']
-	let g:syntastic_javascript_checkers = ['eslint']
-	let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute " ,"trimming empty \<", "inserting implicit ", "unescaped \&" , "lacks \"action", "lacks value", "lacks \"src", "is not recognized!", "discarding unexpected", "replacing obsolete "]
+if empty(glob('~/.vim/autoload/plug.vim'))
+	silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
+
+call plug#begin()
+
+" General-purpose
+Plug 'junegunn/vim-plug'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-syntastic/syntastic'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+
+" vim customization + features
+Plug 'chrisbra/vim-diff-enhanced'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'janko-m/vim-test'
+Plug 'skywind3000/asyncrun.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" Javascript + Typescript
+Plug 'Quramy/tsuquyomi', { 'for': ['javascript', 'typescript'] }
+Plug 'burnettk/vim-angular', { 'for': ['javascript', 'typescript'] }
+Plug 'elzr/vim-json', { 'for': ['javascript', 'typescript'] }
+Plug 'leafgarland/typescript-vim', { 'for': ['javascript', 'typescript'] }
+Plug 'maksimr/vim-jsbeautify', { 'for': ['javascript', 'typescript'] }
+Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'typescript'] }
+Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'typescript'] }
+
+" Other languages
+Plug 'aklt/plantuml-syntax'
+Plug 'hashivim/vim-terraform', { 'for': 'terraform' }
+Plug 'hdiniz/vim-gradle'
+Plug 'mikelue/vim-maven-plugin'
+Plug 'udalov/kotlin-vim'
+
+call plug#end()
+
+" vim-test settings
+let test#strategy = 'vimux'
+
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_wq = 0
+
+let g:tsuquyomi_disable_quickfix = 1
+let g:tsuquyomi_single_quote_import = 1
+let g:tsuquyomi_semicolon_import = 1
+
+let g:syntastic_json_checkers = ['jsonlint-php']
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
+let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute " ,"trimming empty \<", "inserting implicit ", "unescaped \&" , "lacks \"action", "lacks value", "lacks \"src", "is not recognized!", "discarding unexpected", "replacing obsolete "]
+
+autocmd FileType typescript setlocal completeopt+=preview,noinsert,noselect
 
 "== General Setup ==============================================================
 
@@ -72,7 +79,7 @@ scriptencoding utf-8
 set fileencodings=utf-8,utf-16le,utf-16be
 set encoding=utf-8
 
-set textwidth=80
+set textwidth=120
 if &diff
 	set winwidth=5
 	set diffopt+=iwhite
