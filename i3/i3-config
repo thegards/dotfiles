@@ -37,6 +37,7 @@ bindsym             $mod+Ctrl+x       --release         exec --no-startup-id xki
 bindsym             $mod+Return                         exec termite
 #bindsym             $mod+Ctrl+m                         exec terminal -e 'alsamixer'
 bindsym             $mod+Ctrl+m                         exec pavucontrol
+bindsym             $mod+c                              exec keepassxc
 bindsym             $mod+d                              exec --no-startup-id dmenu_recency
 bindsym             $mod+z                              exec --no-startup-id morc_menu
 bindsym             $mod+Shift+d      --release         exec "killall dunst; exec notify-send 'restart dunst'"
@@ -106,8 +107,7 @@ set                 $ws07                               07
 set                 $ws08                               08
 set                 $ws09                               09
 set                 $ws10                               10
-# IDE
-set                 $ws11                               11:💻
+set                 $ws11                               11
 set                 $ws12                               12
 set                 $ws13                               13
 set                 $ws14                               14
@@ -123,8 +123,8 @@ set                 $ws19                               19:👤
 set                 $ws20                               20:📩
 # Calendar
 set                 $ws21                               21:📅
-# Keepass
-set                 $ws22                               22:🔑
+# IDE
+set                 $ws22                               22:💻
 bindsym             $mod+1                              workspace $ws01
 bindsym             $mod+2                              workspace $ws02
 bindsym             $mod+3                              workspace $ws03
@@ -317,6 +317,7 @@ mode "$mode_gaps_outer" {
 # Floating management                                                          #
 ################################################################################
 for_window          [title="alsamixer"]                 floating enable border pixel 1
+for_window          [class="KeePassXC"]                 floating enable border pixel 1
 for_window          [class="Pavucontrol"]               floating enable border pixel 1
 for_window          [class="calamares"]                 floating enable border normal
 for_window          [class="Clipgrab"]                  floating enable
