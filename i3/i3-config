@@ -1,4 +1,4 @@
-# vim: set nowrap expandtab ts=2 sts=2 sw=2:
+# vim:nowrap:et:ts=2:sts=2:sw=2
 ################################################################################
 # General settings                                                             #
 ################################################################################
@@ -35,7 +35,8 @@ bindsym             $mod+Ctrl+x       --release         exec --no-startup-id xki
 
 # App shortcuts
 bindsym             $mod+Return                         exec termite
-bindsym             $mod+Ctrl+m                         exec terminal -e 'alsamixer'
+#bindsym             $mod+Ctrl+m                         exec terminal -e 'alsamixer'
+bindsym             $mod+Ctrl+m                         exec pavucontrol
 bindsym             $mod+d                              exec --no-startup-id dmenu_recency
 bindsym             $mod+z                              exec --no-startup-id morc_menu
 bindsym             $mod+Shift+d      --release         exec "killall dunst; exec notify-send 'restart dunst'"
@@ -60,6 +61,8 @@ bindsym             $mod+Shift+$nav_left                move left
 bindsym             $mod+Shift+$nav_right               move right
 bindsym             $mod+Shift+$nav_up                  move up
 bindsym             $mod+Shift+$nav_down                move down
+bindsym             $mod+Ctrl+$nav_right                move workspace to output right
+bindsym             $mod+Ctrl+$nav_left                 move workspace to output left
 bindsym             $mod+Tab                            workspace next
 bindsym             $mod+Shift+Tab                      workspace prev
 bindsym             $mod+Ctrl+Tab                       workspace back_and_forth
@@ -103,14 +106,17 @@ set                 $ws07                               07
 set                 $ws08                               08
 set                 $ws09                               09
 set                 $ws10                               10
-set                 $ws11                               11
+# IDE
+set                 $ws11                               11:💻
 set                 $ws12                               12
 set                 $ws13                               13
 set                 $ws14                               14
 set                 $ws15                               15
 set                 $ws16                               16
-set                 $ws17                               17
-set                 $ws18                               18
+# Music player
+set                 $ws17                               17:🔊
+# Conferencing
+set                 $ws18                               18:📹
 # Comms
 set                 $ws19                               19:👤
 # E-mail
@@ -221,13 +227,21 @@ mode "$mode_system" {
   bindsym           Return                              mode "default"
   bindsym           Escape                              mode "default"
 }
-set                 $mode_resize                        resize: (h) <- ; (l) -> ; (k) ^ ; (j) v
+set                 $mode_resize                        resize: (h) <- ; (l) -> ; (k) ^ ; (j) v [default=5 Ctrl=1 shift=10]
 bindsym             $mod+Ctrl+r                         mode "$mode_resize"
 mode "$mode_resize" {
-  bindsym           l                                   resize grow width 5 px or 5 ppt
-  bindsym           h                                   resize shrink width 5 px or 5 ppt
-  bindsym           k                                   resize grow height 5 px or 5 ppt
-  bindsym           j                                   resize shrink height 5 px or 5 ppt
+  bindsym           $nav_right                          resize grow width 5 px or 5 ppt
+  bindsym           $nav_left                           resize shrink width 5 px or 5 ppt
+  bindsym           $nav_up                             resize grow height 5 px or 5 ppt
+  bindsym           $nav_down                           resize shrink height 5 px or 5 ppt
+  bindsym           Ctrl+$nav_right                     resize grow width 1 px or 1 ppt
+  bindsym           Ctrl+$nav_left                      resize shrink width 1 px or 1 ppt
+  bindsym           Ctrl+$nav_up                        resize grow height 1 px or 1 ppt
+  bindsym           Ctrl+$nav_down                      resize shrink height 1 px or 1 ppt
+  bindsym           Shift+$nav_right                    resize grow width 10 px or 10 ppt
+  bindsym           Shift+$nav_left                     resize shrink width 10 px or 10 ppt
+  bindsym           Shift+$nav_up                       resize grow height 10 px or 10 ppt
+  bindsym           Shift+$nav_down                     resize shrink height 10 px or 10 ppt
   bindsym           Return                              mode "default"
   bindsym           Escape                              mode "default"
 }
@@ -303,6 +317,7 @@ mode "$mode_gaps_outer" {
 # Floating management                                                          #
 ################################################################################
 for_window          [title="alsamixer"]                 floating enable border pixel 1
+for_window          [class="Pavucontrol"]               floating enable border pixel 1
 for_window          [class="calamares"]                 floating enable border normal
 for_window          [class="Clipgrab"]                  floating enable
 for_window          [title="File Transfer*"]            floating enable
@@ -332,7 +347,8 @@ exec        --no-startud-id blueman-applet
 exec        --no-startup-id clipit
 exec        --no-startup-id conky -c ~/script/conky.conf
 exec        --no-startup-id xautolock -time 10 -locker ~/script/i3exit lock
-exec        --no-startup-id volumeicon
+exec        --no-startup-id start-pulseaudio-x11
+exec        --no-startup-id pa-applet
 exec        --no-startup-id nm-applet
 exec_always --no-startup-id sbxkb
 exec_always --no-startup-id ff-theme-util
