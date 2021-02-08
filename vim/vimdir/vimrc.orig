@@ -8,7 +8,14 @@ endif
 
 call plug#begin()
 
+<<<<<<< HEAD
+" General-purpose
+Plug 'arcticicestudio/nord-vim'
+||||||| parent of b50d774 (Add a few more plugins and tweaks to vimrc)
+" General-purpose
+=======
 " Plugin management
+>>>>>>> b50d774 (Add a few more plugins and tweaks to vimrc)
 Plug 'junegunn/vim-plug'
 
 " General-purpose
@@ -85,8 +92,9 @@ syntax on
 set t_ut=
 set t_Co=256
 if !has('gui_running')
-	colorscheme fu
+	"colorscheme fu
 endif
+colorscheme nord
 
 " Use all utf-8 for encoding a file.
 scriptencoding utf-8
