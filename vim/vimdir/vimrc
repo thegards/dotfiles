@@ -8,56 +8,70 @@ endif
 
 call plug#begin()
 
+" Plugin management
+Plug 'junegunn/vim-plug'
+
 " General-purpose
 Plug 'arcticicestudio/nord-vim'
-Plug 'junegunn/vim-plug'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-syntastic/syntastic'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree',               { 'on': 'NERDTreeToggle' }
+Plug 'aserebryakov/vim-todo-lists'
 
 " vim customization + features
 Plug 'chrisbra/vim-diff-enhanced'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'janko-m/vim-test'
-Plug 'skywind3000/asyncrun.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'junegunn/fzf.vim'
+Plug 'neoclide/coc.nvim',                 { 'branch': 'release' }
+Plug 'tyru/open-browser.vim'
 
-" Javascript + Typescript
-Plug 'Quramy/tsuquyomi', { 'for': ['javascript', 'typescript'] }
-Plug 'burnettk/vim-angular', { 'for': ['javascript', 'typescript'] }
-Plug 'elzr/vim-json', { 'for': ['javascript', 'typescript'] }
-Plug 'leafgarland/typescript-vim', { 'for': ['javascript', 'typescript'] }
-Plug 'maksimr/vim-jsbeautify', { 'for': ['javascript', 'typescript'] }
-Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'typescript'] }
-Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'typescript'] }
+" Javascript + Typescript - Common
+Plug 'burnettk/vim-angular',              { 'for': ['javascript', 'typescript'] }
+Plug 'elzr/vim-json',                     { 'for': ['javascript', 'typescript', 'json'] }
+Plug 'prettier/vim-prettier',             { 'for': ['javascript', 'typescript', 'json'] }
 
-" Other languages
-Plug 'aklt/plantuml-syntax'
-Plug 'hashivim/vim-terraform', { 'for': 'terraform' }
+" Typescript support
+Plug 'leafgarland/typescript-vim',        { 'for': ['typescript'] }
+Plug 'Quramy/tsuquyomi',                  { 'for': ['typescript', 'javascript'] }
+
+" Javascript
+Plug 'pangloss/vim-javascript',           { 'for': ['javascript'] }
+"Plug 'ternjs/tern_for_vim',               { 'for': ['javascript'] }
+
+" Build tool integration
 Plug 'hdiniz/vim-gradle'
 Plug 'mikelue/vim-maven-plugin'
-Plug 'udalov/kotlin-vim'
+
+" Other languages
+Plug 'aklt/plantuml-syntax',              { 'for': 'plantuml' }
+Plug 'weirongxu/plantuml-previewer.vim',  { 'for': 'plantuml' }
+Plug 'hashivim/vim-terraform',            { 'for': 'terraform' }
+Plug 'udalov/kotlin-vim',                 { 'for': 'kotlin' }
 
 call plug#end()
 
 " vim-test settings
-let test#strategy = 'vimux'
+let test#strategy = 'vimterminal'
 
 "let g:syntastic_always_populate_loc_list = 1
 "let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_wq = 0
 
 let g:tsuquyomi_disable_quickfix = 1
+let g:tsuquyomi_shortest_import_path = 1
 let g:tsuquyomi_single_quote_import = 1
 let g:tsuquyomi_semicolon_import = 1
 
-let g:syntastic_json_checkers = ['jsonlint-php']
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
-let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute " ,"trimming empty \<", "inserting implicit ", "unescaped \&" , "lacks \"action", "lacks value", "lacks \"src", "is not recognized!", "discarding unexpected", "replacing obsolete "]
+let g:prettier#autoformat = 1
+let g:prettier#autoformat_require_pragma = 0
+let g:prettier#autoformat_config_present = 1
 
-autocmd FileType typescript setlocal completeopt+=preview,noinsert,noselect
+let g:syntastic_check_on_wq = 0
+let g:syntastic_json_checkers = ['jsonlint-php']
+let g:syntastic_javascript_checkers = ['prettier']
+let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
 
 "== General Setup ==============================================================
 
@@ -96,62 +110,50 @@ endif
 set scrollopt+=hor
 
 " Default indent style
-set tabstop=2 shiftwidth=2 softtabstop=2 noexpandtab
+set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 
 " UTF-8 Visual aids setup.
 set showbreak=>\ 
 set fillchars=vert:│,stl:-
-set list listchars=tab:\|-,trail:~,eol:$,space:·
+"set list
+set listchars=tab:\|-,trail:~,eol:$,space:·
 nmap <silent> <F9> :set list!<CR>
 
-set wrap
+nnoremap zq :qa<CR>
+nnoremap <F3> :NERDTreeToggle<CR>
+nnoremap <S-F6> :TsuquyomiRenameSymbol<CR>
+nnoremap <C-F5> :TestFile<CR>
+nnoremap <S-F5> :TestNearest<CR>
+
+set nowrap
+set fo-=t " Don't format text automatically using textwidth
 set bs=indent,eol,start
 set ignorecase
 set virtualedit=onemore
 set modelines=5
 
-" Keep the cursor always centered
-set scrolloff=999
-
-" Statusline setup - Show buffer number, buffer filename
-"set laststatus=2
-"set statusline=%02n)\ %F%m%r%h%w\ %{FugitiveStatusline()}%=\ (%{&ff},%{&fenc}){%Y}[%05l,%03v][%03p%%,%05LL]
-"set statusline=%02n)\ %F%m%r%h%w\ %=\ (%{&ff},%{&fenc}){%Y}[%05l,%03v][%03p%%,%05LL]
-
 " Highlight current cursor line
 set cul
 hi CursorLine term=underline cterm=underline ctermbg=none
 
-" General filetype management
-au BufWritePost          *.pu      :silent make
-au BufNewFile,BufReadPre *.mk      setlocal noexpandtab
-au BufNewFile,BufReadPre Makefile* setlocal noexpandtab
-
-" Window navigation
-nmap <S-F5> :tabp<CR>
-nmap <S-F6> :tabn<CR>
-nmap <F5> <C-w>W
-nmap <F6> <C-w>w
-
-" Grep commands
-nmap gR :grep -RIi <cword> --exclude-dir=".svn" --exclude-dir=".git" --exclude-dir="lib" --exclude-dir="lib-other" --exclude="*.min.*" .
-nmap gr :grep -RIi <cword> --exclude-dir=".svn" --exclude-dir=".git" --exclude-dir="lib" --exclude-dir="lib-other" --exclude="*.min.*" .<CR>
-nmap glr :lgrep -RIi <cword> --exclude-dir=".svn" --exclude-dir=".git" --exclude-dir="lib" --exclude-dir="lib-other" --exclude="*.min.*" .<CR>
+set scrolloff=999
+set sidescrolloff=999
 
 "= Line number display Setup ===================================================
 
 " default to relative line numbers
+set signcolumn=number
 set relativenumber
-set nonumber
+set number
 set numberwidth=5
 
 " show absolute line numbers when focus is lost
 au FocusLost *   :set nu | set nornu
-au FocusGained * :set rnu | set nonu
+au FocusGained * :set rnu | set nu
 
 " show absolute line numbers when in insert mode
 au InsertEnter * :set nu | set nornu
-au InsertLeave * :set rnu | set nonu
+au InsertLeave * :set rnu | set nu
 
 "= Window and buffer management setup ==========================================
 
@@ -226,3 +228,21 @@ endfunction
 
 nmap <silent> <F7> :call ToggleList("Location List", 'l', 5)<CR>
 nmap <silent> <F8> :call ToggleList("Quickfix List", 'c', 5)<CR>
+
+
+nmap <silent> <C-S-F> :Ag<CR>
+
+
+  inoremap <silent><expr> <c-@> coc#refresh()
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> <C-n> :FZF<cr>
