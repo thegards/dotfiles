@@ -18,7 +18,7 @@ NORMAL_COLOR='\e[0m'
 if [ x"${PATH_ORIG}" == x"" ]; then
   export PATH_ORIG=${PATH}
 fi
-export PATHADD="${HOME}/bin::/opt/bin:/opt/sbin"
+export PATHADD="${HOME}/bin:${HOME}/.local/bin:/opt/bin:/opt/sbin"
 export PATH=${PATHADD}:${PATH_ORIG}
 
 # Configure terminal colors
@@ -28,7 +28,6 @@ export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd       # Default linux terminal colors
 # Common environment variables
 export EDITOR=vim
 export SVN_EDITOR=vim
-export BROWSER=firefox
 export QT_QPA_PLATFORMTHEME=qt5ct  # Enable qt5ct styling for QT apps
 
 # Prompt configuration
