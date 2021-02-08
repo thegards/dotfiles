@@ -36,6 +36,7 @@ bindsym             $mod+Ctrl+x       --release         exec --no-startup-id xki
 # App shortcuts
 bindsym             $mod+Return                         exec alacritty
 #bindsym             $mod+Ctrl+m                         exec terminal -e 'alsamixer'
+bindsym             $mod+b                              exec --no-startup-id blueman-manager
 bindsym             $mod+Ctrl+m                         exec pavucontrol
 bindsym             $mod+c                              exec keepassxc
 bindsym             $mod+d                              exec --no-startup-id rofi -show run
@@ -70,7 +71,7 @@ bindsym             $mod+Ctrl+Tab                       workspace back_and_forth
 bindsym             $mod+Ctrl+Shift+Tab                 move container to workspace back_and_forth; workspace back_and_forth
 
 # Layout
-bindsym             $mod+backslash                      split toggle
+bindsym             $mod+Shift+backslash                split toggle
 bindsym             $mod+bar                            split h;exec notify-send 'tile horizontally'
 bindsym             $mod+minus                          split v;exec notify-send 'tile vertically'
 bindsym             $mod+s                              layout stacking
@@ -317,8 +318,9 @@ mode "$mode_gaps_outer" {
 # Floating management                                                          #
 ################################################################################
 for_window          [title="alsamixer"]                 floating enable border pixel 1
-for_window          [class="KeePassXC"]                 floating enable border pixel 1
-for_window          [class="Pavucontrol"]               floating enable border pixel 1
+for_window          [class="KeePassXC"]                 floating enable border pixel 1, move position center
+for_window          [title="Auto-Type - KeePassXC"]     resize set 900 600, move position center
+for_window          [class="Pavucontrol"]               floating enable sticky enable border pixel 1, move position center
 for_window          [class="calamares"]                 floating enable border normal
 for_window          [class="Clipgrab"]                  floating enable
 for_window          [title="File Transfer*"]            floating enable
@@ -335,6 +337,8 @@ for_window          [class="Oblogout"]                  fullscreen enable
 for_window          [class="Pamac-manager"]             floating enable
 for_window          [class="qt5ct"]                     floating enable sticky enable border normal
 for_window          [class="Qtconfig-qt4"]              floating enable sticky enable border normal
+for_window          [class="jetbrains-idea-ce"]         move position center
+for_window          [class="Blueman-manager"]           floating enable sticky enable, resize set 900 600, move position center
 for_window          [urgent=latest]                     focus
 
 ################################################################################
@@ -343,16 +347,16 @@ for_window          [urgent=latest]                     focus
 exec        --no-startup-id bash -c "test -f ~/script/startup.sh && ~/script/startup.sh"
 exec        --no-startup-id bash -c "test -f ~/script/startup-local.sh && ~/script/startup-local.sh"
 exec        --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec        --no-startup-id picom -b
 exec        --no-startup-id nitrogen --restore #; sleep 1; compton -b
 exec        --no-startup-id xfce4-power-manager
 exec        --no-startup-id pamac-tray
-exec        --no-startud-id blueman-applet
 exec        --no-startup-id clipit
-exec        --no-startup-id conky -c ~/script/conky.conf
 exec        --no-startup-id xautolock -time 10 -locker ~/script/i3exit lock
 exec        --no-startup-id start-pulseaudio-x11
 exec        --no-startup-id pa-applet
 exec        --no-startup-id nm-applet
-exec_always --no-startup-id sbxkb
+exec        --no-startup-id sleep 10; blueman-applet
+exec_always --no-startup-id bash -c "pkill conky ; conky -c ~/script/conky.conf"
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
