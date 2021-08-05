@@ -45,4 +45,6 @@ shopt -s checkwinsize     # Bash doesn't get SIGWINCH when other app is in
 shopt -s expand_aliases
 shopt -s histappend       # Enable history appending instead of overwriting.  #139609
 
+test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
+
 [ -r ~/script/bashrc_local ] && . ~/script/bashrc_local
