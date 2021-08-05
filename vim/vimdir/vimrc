@@ -12,10 +12,11 @@ call plug#begin()
 Plug 'junegunn/vim-plug'
 
 " General-purpose
-Plug 'tpope/vim-fugitive'
 Plug 'vim-syntastic/syntastic'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'pakutoma/toggle-terminal'
 Plug 'scrooloose/nerdtree',               { 'on': 'NERDTreeToggle' }
-Plug 'aserebryakov/vim-todo-lists'
 Plug 'arcticicestudio/nord-vim'
 
 " vim customization + features
@@ -26,10 +27,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim',                 { 'branch': 'release' }
-Plug 'tyru/open-browser.vim'
 
 " Javascript + Typescript - Common
-Plug 'burnettk/vim-angular',              { 'for': ['javascript', 'typescript'] }
 Plug 'elzr/vim-json',                     { 'for': ['javascript', 'typescript', 'json'] }
 Plug 'prettier/vim-prettier',             { 'for': ['javascript', 'typescript', 'json'] }
 
@@ -39,7 +38,6 @@ Plug 'Quramy/tsuquyomi',                  { 'for': ['typescript', 'javascript'] 
 
 " Javascript
 Plug 'pangloss/vim-javascript',           { 'for': ['javascript'] }
-"Plug 'ternjs/tern_for_vim',               { 'for': ['javascript'] }
 
 " Build tool integration
 Plug 'hdiniz/vim-gradle'
@@ -64,17 +62,30 @@ let g:tsuquyomi_shortest_import_path = 1
 let g:tsuquyomi_single_quote_import = 1
 let g:tsuquyomi_semicolon_import = 1
 
-let g:prettier#autoformat = 1
+if !&diff
+	let g:prettier#autoformat = 0
+endif
 let g:prettier#autoformat_require_pragma = 0
-let g:prettier#autoformat_config_present = 1
+let g:prettier#autoformat_config_present = 0
+let g:prettier#quickfix_auto_focus = 0
 
 let g:syntastic_check_on_wq = 0
+let g:syntastic_mode_map = { "mode": "passive", "active_filetypes": [], "passive_filetypes": [] }
 let g:syntastic_json_checkers = ['jsonlint-php']
 let g:syntastic_javascript_checkers = ['prettier']
 let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
 
+let g:toggle_terminal#position = 'botright'
+
+let g:fzf_command_prefix = 'Fz'
+
+let test#vim#term_position = "vert botright"
+
 let g:airline_theme='nord'
 let g:airline_powerline_fonts=1
+
+let NERDTreeKeepTreeInNewTab=1
+
 "== General Setup ==============================================================
 
 if has('win32') || has('win64')
@@ -101,7 +112,7 @@ if &diff
 else
 	set foldmethod=syntax
 	set foldlevelstart=99
-	set winwidth=85
+	set winwidth=121
 	set colorcolumn=+1
 endif
 
@@ -113,16 +124,11 @@ set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 " UTF-8 Visual aids setup.
 set showbreak=>\ 
 set fillchars=vert:│,stl:-
-"set list
+set list
 set listchars=tab:\|-,trail:~,eol:$,space:·
 nmap <silent> <F9> :set list!<CR>
 
 nnoremap zq :qa<CR>
-nnoremap <F3> :NERDTreeToggle<CR>
-nnoremap <S-F6> :TsuquyomiRenameSymbol<CR>
-nnoremap <C-F5> :TestFile<CR>
-nnoremap <S-F5> :TestNearest<CR>
-
 set nowrap
 set fo-=t " Don't format text automatically using textwidth
 set bs=indent,eol,start
@@ -139,7 +145,7 @@ set sidescrolloff=999
 "= Line number display Setup ===================================================
 
 " default to relative line numbers
-set signcolumn=number
+set signcolumn=yes
 set relativenumber
 set number
 set numberwidth=5
@@ -193,6 +199,8 @@ nmap <leader>pb :call PasteBuffer()<CR>
 nmap <silent> <leader>mw :call MarkWindow()<CR>
 nmap <silent> <leader>pw :call SwapMarkedWindow()<CR>
 
+nmap <leader>ff :Prettier<CR>
+
 "= Quicklist management Setup ==================================================
 
 " Thanks to http://vim.wikia.com/wiki/Toggle_to_open_or_close_the_quickfix_window
@@ -223,14 +231,7 @@ function! ToggleList(bufname, pfx, height)
 	endif
 endfunction
 
-nmap <silent> <F7> :call ToggleList("Location List", 'l', 5)<CR>
-nmap <silent> <F8> :call ToggleList("Quickfix List", 'c', 5)<CR>
-
-
-nmap <silent> <C-S-F> :Ag<CR>
-
-
-  inoremap <silent><expr> <c-@> coc#refresh()
+inoremap <silent><expr> <c-@> coc#refresh()
 if exists('*complete_info')
   inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 else
@@ -242,4 +243,12 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-nmap <silent> <C-n> :FZF<cr>
+nmap <silent> <C-p> :FzGit<cr>
+nmap <silent> <C-S-F> :FzAg<CR>
+nmap <silent> <F3> :NERDTreeToggle<CR>
+nmap <silent> <F4> :NERDTreeFind<CR>
+nmap <silent> <F7> :call ToggleList("Location List", 'l', 5)<CR>
+nmap <silent> <F8> :call ToggleList("Quickfix List", 'c', 5)<CR>
+nnoremap <S-F6> :TsuquyomiRenameSymbol<CR>
+nnoremap <C-F5> :TestFile<CR>
+nnoremap <S-F5> :TestNearest<CR>
