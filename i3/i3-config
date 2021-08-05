@@ -230,6 +230,29 @@ mode "$mode_system" {
   bindsym           Return                              mode "default"
   bindsym           Escape                              mode "default"
 }
+
+set                 $mode_move                          move: (h) <- ; (l) -> ; (k) ^ ; (j) v [default=5 Ctrl=1 shift=10]
+bindsym             $mod+Ctrl+m                         mode "$mode_move" focus floating
+mode "$mode_move" {
+  bindsym           $mod+Tab focus right
+
+  bindsym           $nav_right                          move right 5 px
+  bindsym           $nav_left                           move left  5 px
+  bindsym           $nav_up                             move up    5 px
+  bindsym           $nav_down                           move down  5 px
+  bindsym           Ctrl+$nav_right                     move right 1 px
+  bindsym           Ctrl+$nav_left                      move left  1 px
+  bindsym           Ctrl+$nav_up                        move up    1 px
+  bindsym           Ctrl+$nav_down                      move down  1 px
+  bindsym           Shift+$nav_right                    move right 10 px
+  bindsym           Shift+$nav_left                     move left  10 px
+  bindsym           Shift+$nav_up                       move up    10 px
+  bindsym           Shift+$nav_down                     move down  10 px
+
+  bindsym           Return mode "default"
+  bindsym           Escape mode "default"
+}
+
 set                 $mode_resize                        resize: (h) <- ; (l) -> ; (k) ^ ; (j) v [default=5 Ctrl=1 shift=10]
 bindsym             $mod+Ctrl+r                         mode "$mode_resize"
 mode "$mode_resize" {
