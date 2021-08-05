@@ -62,6 +62,8 @@ bindsym             $mod+Shift+$nav_left                move left
 bindsym             $mod+Shift+$nav_right               move right
 bindsym             $mod+Shift+$nav_up                  move up
 bindsym             $mod+Shift+$nav_down                move down
+bindsym             $mod+Ctrl+$nav_up                   move workspace to output up
+bindsym             $mod+Ctrl+$nav_down                 move workspace to output down
 bindsym             $mod+Ctrl+$nav_right                move workspace to output right
 bindsym             $mod+Ctrl+$nav_left                 move workspace to output left
 bindsym             $mod+Tab                            workspace next
@@ -344,7 +346,7 @@ mode "$mode_gaps_outer" {
 # Floating management                                                          #
 ################################################################################
 for_window          [title="alsamixer"]                 floating enable border pixel 1
-for_window          [class="KeePassXC"]                 floating enable border pixel 1, move position center
+for_window          [class="KeePassXC"]                 floating enable border pixel 1, resize set 1600 900, move position center
 for_window          [title="Auto-Type - KeePassXC"]     resize set 900 600, move position center
 for_window          [class="Pavucontrol"]               floating enable sticky enable border pixel 1, move position center
 for_window          [class="calamares"]                 floating enable border normal
@@ -373,11 +375,11 @@ for_window          [urgent=latest]                     focus
 exec        --no-startup-id bash -c "test -f ~/script/startup.sh && ~/script/startup.sh"
 exec        --no-startup-id bash -c "test -f ~/script/startup-local.sh && ~/script/startup-local.sh"
 exec        --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec        --no-startup-id picom -b
+#exec        --no-startup-id picom -b
 exec        --no-startup-id nitrogen --restore #; sleep 1; compton -b
 exec        --no-startup-id xfce4-power-manager
-exec        --no-startup-id pamac-tray
-exec        --no-startup-id clipit
+#exec        --no-startup-id pamac-tray
+exec        --no-startup-id clipit -d --no-icon
 exec        --no-startup-id xautolock -time 10 -locker ~/script/i3exit lock
 exec        --no-startup-id start-pulseaudio-x11
 exec        --no-startup-id pa-applet
