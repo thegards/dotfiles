@@ -8,3 +8,5 @@ CONFIG_DIR=${XDG_CONFIG_HOME:-${HOME}/.config}/i3status
 [ -d ${CONFIG_DIR} ] || mkdir -p ${CONFIG_DIR}
 
 ln -snf ${SCRIPT_DIR}/i3status-config      ${CONFIG_DIR}/config
+ln -snf ${SCRIPT_DIR}/top.conf             ${CONFIG_DIR}/top.conf
+ln -snf ${SCRIPT_DIR}/bottom.conf          ${CONFIG_DIR}/bottom.conf

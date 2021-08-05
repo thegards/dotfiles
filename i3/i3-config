@@ -203,8 +203,7 @@ bar {
   position                                              bottom
   bindsym button4                                       nop
   bindsym button5                                       nop
-  tray_output                                           primary
-  status_command                                        py3status
+  status_command                                        py3status -c ~/.config/i3status/bottom.conf
 }
 
 bar {
@@ -212,6 +211,8 @@ bar {
   position                                              top
   tray_output                                           none
   binding_mode_indicator                                no
+  tray_output                                           primary
+  status_command                                        py3status -c ~/.config/i3status/top.conf
 }
 
 ################################################################################
