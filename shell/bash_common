@@ -44,3 +44,5 @@ shopt -s checkwinsize     # Bash doesn't get SIGWINCH when other app is in
                           # terminal size when regaining control.
 shopt -s expand_aliases
 shopt -s histappend       # Enable history appending instead of overwriting.  #139609
+
+[ -r ~/script/bashrc_local ] && . ~/script/bashrc_local
