@@ -1,0 +1,22 @@
+@theme "~/.config/rofi/nord.rasi"
+
+configuration {
+  font: "Noto Sans Regular 12";
+  line-margin: 10;
+
+  display-ssh:    "";
+  display-run:    "";
+  display-drun:   "";
+  display-window: "";
+  display-combi:  "";
+  show-icons:     false;
+}
+
+listview {
+  lines: 8;
+  columns: 2;
+}
+
+window {
+  width: 40%;
+}
