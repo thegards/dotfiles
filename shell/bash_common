@@ -1,8 +1,4 @@
 # vim: set ts=2 sts=2 sw=2 expandtab ft=sh nowrap:
-if [ -f ~/.bash_aliases ]; then
-  source ~/.bash_aliases
-fi
-
 ################################################################################
 # Global constants                                                             #
 ################################################################################
@@ -12,6 +8,7 @@ HOST_COLOR='\e[1;36m'
 WHERE_COLOR='\e[1;32m'
 BRANCH_COLOR='\e[0;33m'
 NORMAL_COLOR='\e[0m'
+CHROOT_COLOR='\e[0;35m'
 ################################################################################
 
 # Configure PATH environment variable
@@ -30,8 +27,13 @@ export EDITOR=vim
 export SVN_EDITOR=vim
 export QT_QPA_PLATFORMTHEME=qt5ct  # Enable qt5ct styling for QT apps
 
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+  debian_chroot=$(cat /etc/debian_chroot)
+fi
+
 # Prompt configuration
-export PS1="\\[${USER_COLOR}\\]\u\\[${HOST_COLOR}\\]@\h\\[${WHERE_COLOR}\\]:\w\\[${NORMAL_COLOR}\\]
+export PS1="\\[$CHROOT_COLOR\\]${debian_chroot:+($debian_chroot)}\\[${USER_COLOR}\\]\u\\[${HOST_COLOR}\\]@\h\\[${WHERE_COLOR}\\]:\w\\[${NORMAL_COLOR}\\]
 \$ "
 
 # Enable bash_completion
@@ -44,7 +46,15 @@ shopt -s checkwinsize     # Bash doesn't get SIGWINCH when other app is in
                           # terminal size when regaining control.
 shopt -s expand_aliases
 shopt -s histappend       # Enable history appending instead of overwriting.  #139609
-
+shopt -s globstar         # Enable using the pattern "**" in pathname expansion to
+                          # match all files and zero or more directories and subdirectories.
+#
 test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
 
-[ -r ~/script/bashrc_local ] && . ~/script/bashrc_local
+# colored GCC warnings and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+[ -r ~/script/bash_common ] && . ~/script/bash_common

@@ -117,7 +117,8 @@ set                 $ws12                               12
 set                 $ws13                               13
 set                 $ws14                               14
 set                 $ws15                               15
-set                 $ws16                               16
+# Workflow
+set                 $ws16                               16:📋
 # Music player
 set                 $ws17                               17:🔊
 # Conferencing

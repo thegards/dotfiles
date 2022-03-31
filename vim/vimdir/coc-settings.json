@@ -3,6 +3,10 @@
         "kotlin": {
             "command": "/usr/bin/kotlin-language-server",
             "filetypes": ["kotlin"]
+        },
+        "java": {
+            "command": "/usr/bin/java-language-server",
+            "filetypes": ["java"]
         }
     }
 }

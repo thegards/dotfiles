@@ -1,0 +1,5 @@
+# vim: set ts=2 sts=2 sw=2 expandtab ft=sh nowrap:
+
+[ -f ~/.bash_aliases ] && . ~/.bash_aliases
+
+[ -r ~/script/bash_functions ] && . ~/script/bash_functions

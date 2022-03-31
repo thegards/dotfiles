@@ -1,7 +1,17 @@
 # vim: set ts=2 sts=2 sw=2 noexpandtab ft=sh:
-if [ -f ~/.bash_common ]
-then
-	source ~/.bash_common
-fi
+
+[ -f ~/.bash_functions ] && . ~/.bash_functions
+
+# If not running interactively, don't do anything
+case $- in
+	*i*) ;;
+	*) return;;
+esac
+
+[ -f ~/.bash_common ] && .  ~/.bash_common
 
 #[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

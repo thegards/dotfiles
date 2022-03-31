@@ -83,6 +83,7 @@ let test#vim#term_position = "vert botright"
 
 let g:airline_theme='nord'
 let g:airline_powerline_fonts=1
+let g:nord_italic_comments=1
 
 let NERDTreeKeepTreeInNewTab=1
 
@@ -99,6 +100,7 @@ syntax on
 set t_ut=
 set t_Co=256
 colorscheme nord
+hi Comment ctermfg=5
 
 " Use all utf-8 for encoding a file.
 scriptencoding utf-8

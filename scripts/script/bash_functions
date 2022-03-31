@@ -1,0 +1,39 @@
+# vim: set ts=2 sts=2 sw=2 expandtab ft=sh nowrap:
+function ifood_db_url() {
+  local db=$1
+  local access=$2
+  if [[ "x${db}" == "xdev" ]];
+  then
+    echo "sa-east-1-database-${access}1.aws-development.dc-ifood.com"
+  else
+    echo "us-east-1-pg-${db}-${access}1.aws-prod-legacy.dc-ifood.com"
+  fi
+}
+
+function db_connect() {
+  local host=$1
+  local dbname=$2
+  set -x
+  psql -h ${host} -U mpy.vgardelli -p 5432 -d ${dbname}
+  set +x
+}
+
+function dev_db () {
+  local dbname=${2:-$1}
+  db_connect $(ifood_db_url dev rw) $dbname
+}
+
+function prod_db () {
+  local dbname=${2:-$1}
+  db_connect $(ifood_db_url $1 ro) $dbname
+}
+
+function prod_db_rw () {
+  local dbname=${2:-$1}
+  db_connect $(ifood_db_url $1 rw) $dbname
+}
+
+function connect_db() {
+  local dbname=${3:-$1}
+  db_connect $(ifood_db_url $1 $2) $dbname
+}
