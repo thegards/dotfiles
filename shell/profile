@@ -1,5 +1,7 @@
 # vim: set ts=2 sts=2 sw=2 noexpandtab ft=sh:
 
+[ -f ~/.bash_variables ] && . ~/.bash_variables
+
 [ -f ~/.bash_functions ] && . ~/.bash_functions
 
 # If not running interactively, don't do anything

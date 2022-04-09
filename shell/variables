@@ -1,0 +1,9 @@
+# Configure PATH environment variable
+if [ x"${PATH_ORIG}" == x"" ]; then
+  export PATH_ORIG=${PATH}
+fi
+export PATHADD="${HOME}/local-bin:${HOME}/.local/bin:/opt/bin:/opt/sbin"
+export PATH=${PATHADD}:${PATH_ORIG}
+
+export QT_QPA_PLATFORMTHEME=qt5ct  # Enable qt5ct styling for QT apps
+

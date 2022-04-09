@@ -6,12 +6,12 @@
 set                 $mod                                Mod4
 
 # Gap setup
-smart_gaps                                              on
-gaps inner                                              14
-gaps outer                                              -2
+# smart_gaps                                              on
+# gaps inner                                              14
+# gaps outer                                              -2
 
 # Border setup
-smart_borders                                           on
+# smart_borders                                           on
 hide_edge_borders                                       none
 default_border                                          pixel 1
 default_floating_border                                 normal
@@ -39,13 +39,14 @@ bindsym             $mod+b                              exec --no-startup-id blu
 bindsym             $mod+Ctrl+s                         exec pavucontrol
 bindsym             $mod+c                              exec keepassxc
 bindsym             $mod+d                              exec --no-startup-id rofi -show run
+bindsym             $mod+Shift+d                        exec --no-startup-id i3-dmenu-desktop --dmenu="rofi -dmenu -i -p 'apps'"
 bindsym             $mod+z                              exec --no-startup-id morc_menu
-bindsym             $mod+Shift+d      --release         exec "killall dunst; exec notify-send 'restart dunst'"
+bindsym             $mod+Ctrl+d      --release          exec "killall dunst; exec notify-send 'restart dunst'"
 
 # Screenshot
-bindsym             Print                               exec --no-startup-id i3-scrot
-bindsym             $mod+Print        --release         exec --no-startup-id i3-scrot -w
-bindsym             $mod+Shift+Print  --release         exec --no-startup-id i3-scrot -s
+bindsym             Print                               exec --no-startup-id i3scrot
+bindsym             $mod+Print        --release         exec --no-startup-id i3scrot -w
+bindsym             $mod+Shift+Print  --release         exec --no-startup-id i3scrot -s
 
 # Navigation
 set                 $nav_left                           h
@@ -102,21 +103,21 @@ bindsym             $mod+p                              exec --no-startup-id ~/s
 ################################################################################
 # Workspace management                                                         #
 ################################################################################
-set                 $ws01                               01
-set                 $ws02                               02
-set                 $ws03                               03
-set                 $ws04                               04
-set                 $ws05                               05
-set                 $ws06                               06
-set                 $ws07                               07
-set                 $ws08                               08
-set                 $ws09                               09
-set                 $ws10                               10
-set                 $ws11                               11
-set                 $ws12                               12
-set                 $ws13                               13
-set                 $ws14                               14
-set                 $ws15                               15
+set                 $ws01                               01:term
+set                 $ws02                               02:web
+set                 $ws03                               03:misc1
+set                 $ws04                               04:misc2
+set                 $ws05                               05:misc3
+set                 $ws06                               06:misc4
+set                 $ws07                               07:misc5
+set                 $ws08                               08:misc6
+set                 $ws09                               09:misc7
+set                 $ws10                               10:perso
+set                 $ws11                               11"
+set                 $ws12                               12"
+set                 $ws13                               13"
+set                 $ws14                               14"
+set                 $ws15                               15:mr
 # Workflow
 set                 $ws16                               16:📋
 # Music player
@@ -373,19 +374,21 @@ for_window          [urgent=latest]                     focus
 ################################################################################
 # Startup applications                                                         #
 ################################################################################
+exec_always --no-startup-id setxkbmap -layout us -variant dvorak-intl
 exec        --no-startup-id bash -c "test -f ~/script/startup.sh && ~/script/startup.sh"
 exec        --no-startup-id bash -c "test -f ~/script/startup-local.sh && ~/script/startup-local.sh"
-exec        --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+#exec        --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 #exec        --no-startup-id picom -b
-exec        --no-startup-id nitrogen --restore #; sleep 1; compton -b
-exec        --no-startup-id xfce4-power-manager
+#exec        --no-startup-id nitrogen --restore #; sleep 1; compton -b
+#exec        --no-startup-id xfce4-power-manager
 #exec        --no-startup-id pamac-tray
-exec        --no-startup-id clipit -d --no-icon
-exec        --no-startup-id xautolock -time 10 -locker ~/script/i3exit lock
-exec        --no-startup-id start-pulseaudio-x11
-exec        --no-startup-id pa-applet
+#exec        --no-startup-id clipit -d --no-icon
+#exec        --no-startup-id xautolock -time 10 -locker ~/script/i3exit lock
+#exec        --no-startup-id start-pulseaudio-x11
+#exec        --no-startup-id pa-applet
 exec        --no-startup-id nm-applet
-exec        --no-startup-id sleep 10; blueman-applet
-exec_always --no-startup-id bash -c "pkill conky ; conky -c ~/script/conky.conf"
-exec_always --no-startup-id ff-theme-util
-exec_always --no-startup-id fix_xcursor
+exec        --no-startup-id compton -b
+#exec        --no-startup-id sleep 10; blueman-applet
+#exec_always --no-startup-id bash -c "pkill conky ; conky -c ~/script/conky.conf"
+#exec_always --no-startup-id ff-theme-util
+#exec_always --no-startup-id fix_xcursor

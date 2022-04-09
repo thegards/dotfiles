@@ -1,0 +1,9 @@
+pane	dev	0	1	:*	0	:/home/vinicius.gardelli/repos/movilepay/git/dod-validator	1	bash	:
+pane	dev	1	0	:	0	:/home/vinicius.gardelli	1	bash	:
+pane	dev	2	0	:-	0	:/home/vinicius.gardelli/repos/movilepay/git/dod-validator	1	bash	:
+pane	vpn	0	1	:*	0	:/home/vinicius.gardelli	1	bash	:
+window	dev	0	:bash	1	:*	5a54,170x42,0,0,15	:
+window	dev	1	:bash	0	:	5a58,170x42,0,0,19	:
+window	dev	2	:bash	0	:-	e451,136x37,0,0,22	:
+window	vpn	0	:vpn	1	:*	5c55,136x33,0,0,16	off
+state	dev	vpn

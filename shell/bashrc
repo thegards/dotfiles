@@ -1,5 +1,7 @@
 # vim: set ts=2 sts=2 sw=2 noexpandtab ft=sh:
 
+[ -f ~/.bash_variables ] && . ~/.bash_variables
+
 [ -f ~/.bash_functions ] && . ~/.bash_functions
 
 # If not running interactively, don't do anything
@@ -11,12 +13,6 @@ esac
 [ -f ~/.bash_common ] && . ~/.bash_common
 
 #[[ -n ${DISPLAY} && -z ${TMUX} ]] && exec tmux
-
-PATH="/home/vgardelli/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/home/vgardelli/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/vgardelli/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/vgardelli/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/vgardelli/perl5"; export PERL_MM_OPT;
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

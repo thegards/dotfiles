@@ -11,13 +11,6 @@ NORMAL_COLOR='\e[0m'
 CHROOT_COLOR='\e[0;35m'
 ################################################################################
 
-# Configure PATH environment variable
-if [ x"${PATH_ORIG}" == x"" ]; then
-  export PATH_ORIG=${PATH}
-fi
-export PATHADD="${HOME}/bin:${HOME}/.local/bin:/opt/bin:/opt/sbin"
-export PATH=${PATHADD}:${PATH_ORIG}
-
 # Configure terminal colors
 export CLICOLOR=1                            # Set proper ls colors
 export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd       # Default linux terminal colors
@@ -25,7 +18,6 @@ export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd       # Default linux terminal colors
 # Common environment variables
 export EDITOR=vim
 export SVN_EDITOR=vim
-export QT_QPA_PLATFORMTHEME=qt5ct  # Enable qt5ct styling for QT apps
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
