@@ -17,7 +17,7 @@ default_border                                          pixel 1
 default_floating_border                                 normal
 
 # Misc
-font                                                    xft:DejaVu Sans Mono 10
+font                                                    xft:DejaVu Sans Mono 8
 floating_modifier                                       $mod
 workspace_auto_back_and_forth                           yes
 
@@ -99,6 +99,19 @@ bindsym             $mod+BackSpace                      exec --no-startup-id ~/s
 
 # misc
 bindsym             $mod+p                              exec --no-startup-id ~/script/display-cycle.py
+
+bindsym             XF86AudioRaiseVolume                exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
+bindsym             XF86AudioLowerVolume                exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2%
+bindsym             XF86AudioMute                       exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+bindsym             Shift+XF86AudioRaiseVolume          exec --no-startup-id pactl set-source-volume @DEFAULT_SOURCE@ +2%
+bindsym             Shift+XF86AudioLowerVolume          exec --no-startup-id pactl set-source-volume @DEFAULT_SOURCE@ -2%
+bindsym             Shift+XF86AudioMute                 exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+bindsym             XF86AudioMicMute                    exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
+bindsym             XF86AudioNext                       exec --no-startup-id playerctl next
+bindsym             XF86AudioPlay                       exec --no-startup-id playerctl play-pause
+bindsym             XF86AudioPrev                       exec --no-startup-id playerctl previous
 
 ################################################################################
 # Workspace management                                                         #
@@ -388,7 +401,7 @@ exec        --no-startup-id bash -c "test -f ~/script/startup-local.sh && ~/scri
 #exec        --no-startup-id pa-applet
 exec        --no-startup-id nm-applet
 exec        --no-startup-id compton -b
-#exec        --no-startup-id sleep 10; blueman-applet
+exec        --no-startup-id sleep 10; blueman-applet
 #exec_always --no-startup-id bash -c "pkill conky ; conky -c ~/script/conky.conf"
 #exec_always --no-startup-id ff-theme-util
 #exec_always --no-startup-id fix_xcursor
