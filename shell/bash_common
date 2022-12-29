@@ -28,7 +28,7 @@ export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd       # Default linux terminal colors
 # Common environment variables
 export EDITOR=vim
 export SVN_EDITOR=vim
-export QT_QPA_PLATFORMTHEME=qt5ct  # Enable qt5ct styling for QT apps
+export QT_QPA_PLATFORMTHEME=qt6ct  # Enable qt5ct styling for QT apps
 
 # Prompt configuration
 export PS1="\\[${USER_COLOR}\\]\u\\[${HOST_COLOR}\\]@\h\\[${WHERE_COLOR}\\]:\w\\[${NORMAL_COLOR}\\]

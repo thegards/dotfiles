@@ -4,4 +4,4 @@ then
 	source ~/.bash_common
 fi
 
-#[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx
+#export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
