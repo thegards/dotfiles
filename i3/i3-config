@@ -6,9 +6,9 @@
 set                 $mod                                Mod4
 
 # Gap setup
-smart_gaps                                              on
-gaps inner                                              14
-gaps outer                                              -2
+smart_gaps                                              off
+gaps inner                                              6
+gaps outer                                              0
 
 # Border setup
 smart_borders                                           on
@@ -17,7 +17,7 @@ default_border                                          pixel 1
 default_floating_border                                 normal
 
 # Misc
-font                                                    xft:DejaVu Sans Mono 10
+font                                                    pango:Noto Sans Mono,Font Awesome 6 Free 8
 floating_modifier                                       $mod
 workspace_auto_back_and_forth                           yes
 
@@ -98,6 +98,9 @@ bindsym             $mod+BackSpace                      exec --no-startup-id ~/s
 
 # misc
 bindsym             $mod+p                              exec --no-startup-id ~/script/display-cycle.py
+
+bindsym             XF86MonBrightnessUp                 exec --no-startup-id light -T 2.0
+bindsym             XF86MonBrightnessDown               exec --no-startup-id light -T 0.8
 
 ################################################################################
 # Workspace management                                                         #
@@ -201,20 +204,52 @@ bindsym             $mod+Ctrl+F12                       move container to worksp
 # Status bar configuration                                                     #
 ################################################################################
 bar {
-  workspace_buttons                                     no
+  height                                                15
   position                                              bottom
+  font                                                  pango:Noto Sans Regular 6
+
+  workspace_buttons                                     no
   bindsym button4                                       nop
   bindsym button5                                       nop
+
   status_command                                        py3status -c ~/.config/i3status/bottom.conf
+
+  colors {
+    separator           #000000
+    background          #1F222D
+    statusline          #81A1C1
+
+    focused_workspace   #1F222D   #1F222D   #81A1C1
+    active_workspace    #1F222D   #252936   #5E81AC
+    inactive_workspace  #1F222D   #1F222D   #4C566A
+    urgent_workspace    #1F222D   #1F222D   #EE829F
+    binding_mode        #1F222D   #81A1C1   #2E3440
+  }
 }
 
 bar {
-  strip_workspace_numbers                               yes
+  height                                                25
   position                                              top
-  tray_output                                           none
-  binding_mode_indicator                                no
+  font                                                  pango:Noto Sans Regular 10
+
+  strip_workspace_numbers                               yes
   tray_output                                           primary
+  tray_padding                                          1
+
+  binding_mode_indicator                                no
   status_command                                        py3status -c ~/.config/i3status/top.conf
+
+  colors {
+    separator           #000000
+    background          #1F222D
+    statusline          #81A1C1
+
+    focused_workspace   #1F222D   #1F222D   #81A1C1
+    active_workspace    #1F222D   #252936   #5E81AC
+    inactive_workspace  #1F222D   #1F222D   #4C566A
+    urgent_workspace    #1F222D   #1F222D   #EE829F
+    binding_mode        #1F222D   #81A1C1   #2E3440
+  }
 }
 
 ################################################################################
@@ -335,18 +370,20 @@ mode "$mode_gaps_outer" {
 #set_from_resource   $term_color13                       color13
 #set_from_resource   $term_color14                       color14
 #set_from_resource   $term_color15                       color15
-#client.focused                                          #556064 #556064 #80FFF9 #FDF6E3
-#client.focused_inactive                                 #2F3D44 #2F3D44 #1ABC9C #454948
-#client.unfocused                                        #2F3D44 #2F3D44 #1ABC9C #454948
-#client.urgent                                           #CB4B16 #FDF6E3 #1ABC9C #268BD2
-#client.placeholder                                      #000000 #0c0c0c #ffffff #000000
-#client.background                                       #2B2C2B
+
+# class                                                 border  backgr. text    indicator
+client.focused                                          #81A1C1 #81A1C1 #FFFFFF #81A1C1
+client.unfocused                                        #2E3440 #1F222D #888888 #1F222D
+client.focused_inactive                                 #2E3440 #1F222D #888888 #1F222D
+client.placeholder                                      #2E3440 #1F222D #888888 #1F222D
+client.urgent                                           #900000 #900000 #FFFFFF #900000
+client.background                                       #242424
 
 ################################################################################
 # Floating management                                                          #
 ################################################################################
 for_window          [title="alsamixer"]                 floating enable border pixel 1
-for_window          [class="KeePassXC"]                 floating enable border pixel 1, resize set 1600 900, move position center
+for_window          [class="KeePassXC"]                 floating enable border pixel 1, resize set 1024 600, move position center
 for_window          [title="Auto-Type - KeePassXC"]     resize set 900 600, move position center
 for_window          [class="Pavucontrol"]               floating enable sticky enable border pixel 1, move position center
 for_window          [class="calamares"]                 floating enable border normal
@@ -360,7 +397,7 @@ for_window          [class="Lxappearance"]              floating enable sticky e
 for_window          [class="Manjaro-hello"]             floating enable
 for_window          [class="Manjaro Settings Manager"]  floating enable border normal
 for_window          [title="MuseScore: Play Panel"]     floating enable
-for_window          [class="Nitrogen"]                  floating enable sticky enable border normal
+for_window          [class="Nitrogen"]                  floating enable sticky enable border normal, move position center
 for_window          [class="Oblogout"]                  fullscreen enable
 for_window          [class="Pamac-manager"]             floating enable
 for_window          [class="qt5ct"]                     floating enable sticky enable border normal
@@ -375,8 +412,8 @@ for_window          [urgent=latest]                     focus
 exec        --no-startup-id bash -c "test -f ~/script/startup.sh && ~/script/startup.sh"
 exec        --no-startup-id bash -c "test -f ~/script/startup-local.sh && ~/script/startup-local.sh"
 exec        --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-#exec        --no-startup-id picom -b
-exec        --no-startup-id nitrogen --restore #; sleep 1; compton -b
+exec_always --no-startup-id bash -c "pkill picom ; picom -b"
+exec        --no-startup-id nitrogen --restore
 exec        --no-startup-id xfce4-power-manager
 #exec        --no-startup-id pamac-tray
 exec        --no-startup-id clipit -d --no-icon

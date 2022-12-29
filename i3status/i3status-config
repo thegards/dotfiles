@@ -42,7 +42,7 @@ group network {
   cycle = 1
   separator_block_width = 15
 
-  wireless wlp3s0 {
+  wireless wlan0 {
     color_good = "#33AA33"
     color_bad = "#BB3300"
     format_up = "📶 %quality %ip"
@@ -51,18 +51,10 @@ group network {
     min_width = "a xxx% xxx.xxx.xxx.xxx"
   }
 
-  ethernet enp6s0 {
+  ethernet enp3s0 {
     color_good = "#CC99BB"
     format_up = "💻     %ip"
     format_down = "💻     ---.---.---.---"
-    align = left
-    min_width = "a xxx% xxx.xxx.xxx.xxx"
-  }
-
-  ethernet cscotun0 {
-    color_good = "#BBCC77"
-    format_up = "🔑     %ip"
-    format_down = "🔑     ---.---.---.---"
     align = left
     min_width = "a xxx% xxx.xxx.xxx.xxx"
   }
