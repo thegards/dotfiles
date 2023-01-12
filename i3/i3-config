@@ -126,10 +126,10 @@ set                 $ws07                               07:misc5
 set                 $ws08                               08:misc6
 set                 $ws09                               09:misc7
 set                 $ws10                               10:perso
-set                 $ws11                               11"
-set                 $ws12                               12"
-set                 $ws13                               13"
-set                 $ws14                               14"
+set                 $ws11                               11:misc8
+set                 $ws12                               12:misc9
+set                 $ws13                               13:misc10
+set                 $ws14                               14:misc11
 set                 $ws15                               15:mr
 # Workflow
 set                 $ws16                               16:📋
@@ -361,7 +361,7 @@ mode "$mode_gaps_outer" {
 # Floating management                                                          #
 ################################################################################
 for_window          [title="alsamixer"]                 floating enable border pixel 1
-for_window          [class="KeePassXC"]                 floating enable border pixel 1, resize set 1600 900, move position center
+for_window          [class="KeePassXC"]                 floating enable border pixel 1, resize set 900 600, move position center
 for_window          [title="Auto-Type - KeePassXC"]     resize set 900 600, move position center
 for_window          [class="Pavucontrol"]               floating enable sticky enable border pixel 1, move position center
 for_window          [class="calamares"]                 floating enable border normal
@@ -400,7 +400,7 @@ exec        --no-startup-id bash -c "test -f ~/script/startup-local.sh && ~/scri
 #exec        --no-startup-id start-pulseaudio-x11
 #exec        --no-startup-id pa-applet
 exec        --no-startup-id nm-applet
-exec        --no-startup-id compton -b
+exec_always --no-startup-id pkill compton; sleep 1; compton -b
 exec        --no-startup-id sleep 10; blueman-applet
 #exec_always --no-startup-id bash -c "pkill conky ; conky -c ~/script/conky.conf"
 #exec_always --no-startup-id ff-theme-util

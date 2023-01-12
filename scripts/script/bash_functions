@@ -2,11 +2,11 @@
 function ifood_db_url() {
   local db=$1
   local access=$2
-  if [[ "x${db}" == "xdev" ]];
+  if [[ "x${db}" == "xsbox" ]];
   then
-    echo "sa-east-1-database-${access}1.aws-development.dc-ifood.com"
+    echo "pg-movilepay-sandbox-${access}1.movilepay-sandbox.dc-ifood.com"
   else
-    echo "us-east-1-pg-${db}-${access}1.aws-prod-legacy.dc-ifood.com"
+    echo "pg-${db}-${access}1.movilepay-production.dc-ifood.com"
   fi
 }
 
@@ -18,7 +18,7 @@ function db_connect() {
   set +x
 }
 
-function dev_db () {
+function sbox_db () {
   local dbname=${2:-$1}
   db_connect $(ifood_db_url dev rw) $dbname
 }
@@ -36,4 +36,99 @@ function prod_db_rw () {
 function connect_db() {
   local dbname=${3:-$1}
   db_connect $(ifood_db_url $1 $2) $dbname
+}
+
+function check_service() {
+  local env=$1
+  local ns=$2
+
+  kubectl --context $env -n $ns get pods,cronjobs
+}
+
+
+function monitor_services() {
+  env=$1
+  shift
+  while true
+  do
+    clear
+    for ns in $*
+    do
+      echo $ns
+      check_service $env $ns
+      echo "---"
+      echo
+    done
+    sleep 15
+  done
+}
+
+function stop_service() {
+  local env=$1
+  local ns=$2
+  local app=${3:-$ns}
+
+  kubectl --context $env -n $ns scale --replicas=0 deployment $app
+  kubectl --context $env -n $ns get cronjobs | grep False | awk '{print $1}' | xargs kubectl --context $env -n $ns patch cronjob -p '{"spec": {"suspend": true}}'
+}
+
+function start_service() {
+  local env=$1
+  local ns=$2
+  local app=${3:-$ns}
+
+  kubectl --context $env -n $ns scale --replicas=1 deployment $app
+  reset_jobs $env $ns $app
+}
+
+function reset_jobs() {
+  local env=$1
+  local ns=$2
+  local app=${3:-$ns}
+
+  kubectl --context $env -n $ns get cronjobs | grep True | awk '{print $1}' | xargs kubectl --context $env -n $ns patch cronjob -p '{"spec": {"suspend": false}}'
+}
+
+function validate_dns() {
+  local env=$1
+  local mode=$2
+  local db_name=$3
+
+  dig +noall +answer ${db_name}-${mode}.intra.movilepay-$env.dc-ifood.com
+}
+
+function monitor_dns() {
+  local env=$1
+  local mode=$2
+  shift
+  shift
+
+  while true
+  do
+    clear
+    for db_name in $*
+    do
+      validate_dns $env $mode $db_name
+      echo "---"
+      echo
+    done
+    sleep 5
+  done
+}
+
+function monitor_service_dns() {
+  local svc_env=$1
+  local db_env=$2
+  local svc_name=$3
+  local db_name=$4
+
+  while true
+  do
+    clear
+    printf "%s || %s\n" $svc_name $db_name
+    check_service $svc_env $svc_name
+    echo "---"
+    validate_dns $db_env rw1 $db_name
+    sleep 10
+  done
 }
