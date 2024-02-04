@@ -1,9 +1,13 @@
-" vim:ts=2:sts=2:sw=2:noet:nowrap
+" vim:ts=2:sts=2:sw=2:et:nowrap
+"
+syntax on
+filetype plugin indent on
+
 "== Plugin Setup ===============================================================
 
 if empty(glob('~/.vim/autoload/plug.vim'))
-	silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 call plug#begin()
@@ -11,93 +15,100 @@ call plug#begin()
 " Plugin management
 Plug 'junegunn/vim-plug'
 
+" LSP
+Plug 'neoclide/coc.nvim',                          { 'branch': 'release' }
+"Plug 'neoclide/coc-highlight',                     { 'do': 'yarn install --frozen-lockfile && yarn build' }
+"
+" Visuals
+Plug 'arcticicestudio/nord-vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
 " General-purpose
-Plug 'vim-syntastic/syntastic'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'pakutoma/toggle-terminal'
-Plug 'scrooloose/nerdtree',               { 'on': 'NERDTreeToggle' }
-Plug 'arcticicestudio/nord-vim'
+Plug 'scrooloose/nerdtree',                        { 'on': 'NERDTreeToggle' }
+Plug 'luochen1990/rainbow'
+Plug 'tpope/vim-surround'
 
 " vim customization + features
-Plug 'chrisbra/vim-diff-enhanced'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'janko-m/vim-test'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'neoclide/coc.nvim',                 { 'branch': 'release' }
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-projectionist'
 
-" Javascript + Typescript - Common
-Plug 'elzr/vim-json',                     { 'for': ['javascript', 'typescript', 'json'] }
-Plug 'prettier/vim-prettier',             { 'for': ['javascript', 'typescript', 'json'] }
+" clojure support
+Plug 'NoahTheDuke/coc-clojure',                    { 'for': 'clojure' }
+Plug 'tpope/vim-fireplace',                        { 'for': 'clojure' }
+Plug 'tpope/vim-salve',                            { 'for': 'clojure' }
+Plug 'tpope/vim-classpath',                        { 'for': 'clojure' }
+Plug 'guns/vim-sexp',                              { 'for': 'clojure' }
+Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': 'clojure' }
+"Plug 'liquidz/vim-iced',                           { 'for': 'clojure' }
+"Plug 'liquidz/vim-iced-coc-source',                { 'for': 'clojure' }
+"Plug 'liquidz/vim-iced-function-list',             { 'for': 'clojure', 'on': 'IcedBrowseFunction' }
+"Plug 'liquidz/vim-iced-project-namespaces',        { 'for': 'clojure', 'on': 'IcedBrowseNamespace' }
+Plug 'clojure-vim/vim-jack-in',                    { 'for': 'clojure' }
 
-" Typescript support
-Plug 'leafgarland/typescript-vim',        { 'for': ['typescript'] }
-Plug 'Quramy/tsuquyomi',                  { 'for': ['typescript', 'javascript'] }
-
-" Javascript
-Plug 'pangloss/vim-javascript',           { 'for': ['javascript'] }
-
-" Build tool integration
-Plug 'hdiniz/vim-gradle'
-Plug 'mikelue/vim-maven-plugin'
-
-" Other languages
-Plug 'aklt/plantuml-syntax',              { 'for': 'plantuml' }
-Plug 'weirongxu/plantuml-previewer.vim',  { 'for': 'plantuml' }
-Plug 'hashivim/vim-terraform',            { 'for': 'terraform' }
-Plug 'udalov/kotlin-vim',                 { 'for': 'kotlin' }
+" scala support
+Plug 'derekwyatt/vim-scala',                       { 'for' : 'clojure' }
 
 call plug#end()
 
-" vim-test settings
-let test#strategy = 'vimterminal'
-
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-
-let g:tsuquyomi_disable_quickfix = 1
-let g:tsuquyomi_shortest_import_path = 1
-let g:tsuquyomi_single_quote_import = 1
-let g:tsuquyomi_semicolon_import = 1
-
-if !&diff
-	let g:prettier#autoformat = 0
-endif
-let g:prettier#autoformat_require_pragma = 0
-let g:prettier#autoformat_config_present = 0
-let g:prettier#quickfix_auto_focus = 0
-
-let g:syntastic_check_on_wq = 0
-let g:syntastic_mode_map = { "mode": "passive", "active_filetypes": [], "passive_filetypes": [] }
-let g:syntastic_json_checkers = ['jsonlint-php']
-let g:syntastic_javascript_checkers = ['prettier']
-let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker.
-
 let g:toggle_terminal#position = 'botright'
+"let g:dispatch_strategy='tmux'
+let g:dispatch_tmux_height = '50% -h'
+
+let g:salve_auto_start_repl=1
 
 let g:fzf_command_prefix = 'Fz'
 
-let test#vim#term_position = "vert botright"
-
 let g:airline_theme='nord'
 let g:airline_powerline_fonts=1
+let g:nord_bold_vertical_split_line=1
+
+"" rainbow parentheses
+let g:rainbow_active = 1
 
 let NERDTreeKeepTreeInNewTab=1
 
+let g:mapleader=' '
+let g:maplocalleader=','
+let g:iced_enable_default_key_mappings = v:true
+
+" Use tab for trigger completion with characters ahead and navigate
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+    let col = col('.') - 1
+      return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:iced#buffer#stdout#mods = 'vertical rightbelow'
+
 "== General Setup ==============================================================
 
-if has('win32') || has('win64')
-	" Make windows use ~/.vim too, I don't want to use _vimfiles
-	set runtimepath^=~/.vim
-endif
-
-syntax on
+" Disable annoying bell sounds
+set belloff=all
 
 " Disable BCE to make colorschemes work on tmux
 set t_ut=
 set t_Co=256
+"set termguicolors
 colorscheme nord
 
 " Use all utf-8 for encoding a file.
@@ -107,13 +118,13 @@ set encoding=utf-8
 
 set textwidth=120
 if &diff
-	set winwidth=5
-	set diffopt+=iwhite
+  set winwidth=5
+  set diffopt+=iwhite
 else
-	set foldmethod=syntax
-	set foldlevelstart=99
-	set winwidth=121
-	set colorcolumn=+1
+  set foldmethod=syntax
+  set foldlevelstart=99
+  set winwidth=121
+  set colorcolumn=+1
 endif
 
 set scrollopt+=hor
@@ -128,7 +139,6 @@ set list
 set listchars=tab:\|-,trail:~,eol:$,space:·
 nmap <silent> <F9> :set list!<CR>
 
-nnoremap zq :qa<CR>
 set nowrap
 set fo-=t " Don't format text automatically using textwidth
 set bs=indent,eol,start
@@ -140,7 +150,6 @@ set modelines=5
 set cul
 
 set scrolloff=999
-set sidescrolloff=999
 
 "= Line number display Setup ===================================================
 
@@ -158,97 +167,20 @@ au FocusGained * :set rnu | set nu
 au InsertEnter * :set nu | set nornu
 au InsertLeave * :set rnu | set nu
 
-"= Window and buffer management setup ==========================================
-
-function! MarkWindow()
-	let g:markedWinNum = winnr()
-endfunction
-
-function! SwapMarkedWindow()
-	"Mark destination
-	let curNum = winnr()
-	let curBuf = bufnr( "%" )
-	exe g:markedWinNum . "wincmd w"
-	"Switch to source and shuffle dest->source
-	let markedBuf = bufnr( "%" )
-	"Hide and open so that we aren't prompted and keep history
-	exe 'hide buf' curBuf
-	"Switch to dest and shuffle source->dest
-	exe curNum . "wincmd w"
-	"Hide and open so that we aren't prompted and keep history
-	exe 'hide buf' markedBuf 
-endfunction
-
-function! YankBuffer()
-	let g:bufops_selected_buffer = bufnr("%")
-endfunction
-
-function! CutBuffer()
-	call YankBuffer()
-	exe 'hide'
-endfunction
-
-function! PasteBuffer()
-	exe 'buf' g:bufops_selected_buffer
-	unlet g:bufops_selected_buffer
-endfunction
-
-nmap <leader>xb :call CutBuffer()<CR>
-nmap <leader>yb :call YankBuffer()<CR>
-nmap <leader>pb :call PasteBuffer()<CR>
-nmap <silent> <leader>mw :call MarkWindow()<CR>
-nmap <silent> <leader>pw :call SwapMarkedWindow()<CR>
-
-nmap <leader>ff :Prettier<CR>
-
 "= Quicklist management Setup ==================================================
 
-" Thanks to http://vim.wikia.com/wiki/Toggle_to_open_or_close_the_quickfix_window
-function! GetBufferList()
-	redir =>buflist
-	silent! ls!
-	redir END
-	return buflist
-endfunction
+nmap <silent> <leader>i"gu i=system("uuidgen \| tr -d '\n' \| tr '[:upper:]' '[:lower:]'")<CR><Esc>
+nmap <silent> <leader>igu i"=system("uuidgen \| tr -d '\n' \| tr '[:upper:]' '[:lower:]'")<CR>"<Esc>
+nmap <silent> <leader>ci"u ci"=system("uuidgen \| tr -d '\n' \| tr '[:upper:]' '[:lower:]'")<CR><Esc>
 
-function! ToggleList(bufname, pfx, height)
-	let buflist = GetBufferList()
-	for bufnum in map(filter(split(buflist, '\n'), 'v:val =~ "'.a:bufname.'"'), 'str2nr(matchstr(v:val, "\\d\\+"))')
-		if bufwinnr(bufnum) != -1
-			exec(a:pfx.'close')
-			return
-		endif
-	endfor
-	if a:pfx == 'l' && len(getloclist(0)) == 0
-		echohl ErrorMsg
-		echo "Location List is Empty."
-		return
-	endif
-	let winnr = winnr()
-	exec(a:pfx.'open '.a:height)
-	if winnr() != winnr
-		wincmd p
-	endif
-endfunction
+nmap <silent> <leader>/g :FzGit<cr>
+nmap <silent> <leader>// :FZF<CR>
+nmap <silent> <leader>/c :FzAg<CR>
 
-inoremap <silent><expr> <c-@> coc#refresh()
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <silent> <C-p> :FzGit<cr>
-nmap <silent> <C-S-F> :FzAg<CR>
+"nmap <silent> <leader>gt <Plug>(iced_cycle_src_and_test)
+"nmap <silent> <leader>enR <Plug>(iced_refresh_all)
+
+nmap <silent> <leader>t" :bo term<CR>
+
 nmap <silent> <F3> :NERDTreeToggle<CR>
 nmap <silent> <F4> :NERDTreeFind<CR>
-nmap <silent> <F7> :call ToggleList("Location List", 'l', 5)<CR>
-nmap <silent> <F8> :call ToggleList("Quickfix List", 'c', 5)<CR>
-nnoremap <S-F6> :TsuquyomiRenameSymbol<CR>
-nnoremap <C-F5> :TestFile<CR>
-nnoremap <S-F5> :TestNearest<CR>

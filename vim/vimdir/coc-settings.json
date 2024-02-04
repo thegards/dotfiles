@@ -1,8 +1,21 @@
 {
-    "languageserver": {
-        "kotlin": {
-            "command": "/usr/bin/kotlin-language-server",
-            "filetypes": ["kotlin"]
-        }
+  "coc.preferences.useQuickfixForLocations": true,
+  "suggest.snippetIndicator": "🍦",
+  "diagnostic.showUnused": true,
+  "diagnostic.showDeprecated": true,
+  "languageserver": {
+    "clojure-lsp": {
+      "command": "clojure-lsp",
+      "filetypes": ["clojure"],
+      "rootPatterns": ["project.clj", "deps.edn"],
+      "additionalSchemes": ["jar", "zipfile"],
+      "trace.server": "verbose",
+      "diagnostic.showUnused": true,
+      "diagnostic.showDeprecated": true,
+      "diagnostic.highlightPriority": 1000000,
+      "initializationOptions": {
+        "ignore-classpath-directories": true
+      }
     }
-}
+  }
+} 
