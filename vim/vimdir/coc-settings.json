@@ -15,7 +15,14 @@
       "diagnostic.highlightPriority": 1000000,
       "initializationOptions": {
         "ignore-classpath-directories": true
-      }
+      },
     }
-  }
+  },
+  "clojure.enable": true,
+  "clojure.lsp-version": "latest",
+  "clojure.lsp-check-on-start": true,
+  "clojure.keymaps.enable": true,
+  "clojure.keymaps.shortcut": "<leader>r",
+  "clojure.startup-message": true,
+  "clojure.trace.server": "off",
 } 
