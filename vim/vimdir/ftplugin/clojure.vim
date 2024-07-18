@@ -26,4 +26,7 @@ aug MyClojureSetting
 
   nmap <silent> K :call <SID>show_documentation()<CR>
 
+  nmap <silent> <Leader>`` :Console<CR>
+  nmap <silent> <Leader>`b :Console!<CR>
+
 aug END
