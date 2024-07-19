@@ -19,5 +19,3 @@ vim.keymap.set("n", as_cmd("W"),           function() vim.lsp.buf.workspace_symb
 vim.keymap.set("n", as_cmd("A"),           function() vim.lsp.buf.code_action() end,       { desc = "Execute code action" })
 vim.keymap.set("x", as_cmd("A"),           function() vim.lsp.buf.range_code_action() end, { desc = "Execute code action for selected range" })
 vim.keymap.set("n", as_refactor_cmd("rs"), function() vim.lsp.buf.rename() end,            { desc = "Rename symbol under cursor" })
-
-
