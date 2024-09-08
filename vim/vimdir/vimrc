@@ -41,7 +41,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-projectionist'
 
 " clojure support
-Plug 'NoahTheDuke/coc-clojure',                    { 'for': 'clojure' }
+Plug 'NoahTheDuke/coc-clojure',                    { 'for': 'clojure', 'branch': 'v0.0.14' }
 Plug 'tpope/vim-fireplace',                        { 'for': 'clojure' }
 Plug 'tpope/vim-salve',                            { 'for': 'clojure' }
 Plug 'tpope/vim-classpath',                        { 'for': 'clojure' }
@@ -52,8 +52,14 @@ Plug 'clojure-vim/vim-jack-in',                    { 'for': 'clojure' }
 " scala support
 Plug 'derekwyatt/vim-scala',                       { 'for': 'scala' }
 
+" plantuml support
+Plug 'tyru/open-browser.vim',                      { 'for': 'plantuml' }
+Plug 'aklt/plantuml-syntax',                       { 'for': 'plantuml' }
+Plug 'weirongxu/plantuml-previewer.vim',           { 'for': 'plantuml' }
+
 call plug#end()
 
+let g:dispatch_no_job_start=1
 let g:salve_auto_start_repl=1
 
 let g:fzf_command_prefix = 'Fz'
@@ -125,7 +131,7 @@ set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
 " UTF-8 Visual aids setup.
 set showbreak=>\ 
 set fillchars=vert:│,stl:-
-set list
+set nolist
 set listchars=tab:\|-,trail:~,eol:$,space:·
 nmap <silent> <F9> :set list!<CR>
 
@@ -164,6 +170,7 @@ nmap <silent> <leader>ci"u ci"=system("uuidgen \| tr -d '\n' \| tr '[:upper:]' 
 nmap <silent> <leader>/g :FzGit<cr>
 nmap <silent> <leader>// :FZF<CR>
 nmap <silent> <leader>/c :FzAg<CR>
+nmap <silent> <leader>/b :FzBuffers<CR>
 
 nmap <silent> <leader>t" :bo term<CR>
 
@@ -172,6 +179,8 @@ nmap <silent> <F4> :NERDTreeFind<CR>
 
 nmap <silent> <F7> :AnsiEsc<CR>
 nmap <silent> <F8> :RainbowToggle<CR>
+
+nmap <leader>crr :Eval (clojure.tools.namespace.repl/refresh-all)<CR>
 
 "nnoremap <Plug>(coc-codeaction)
 "nnoremap <Plug>(coc-codeaction-cursor)
