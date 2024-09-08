@@ -18,4 +18,6 @@ vim.keymap.set("n", as_cmd("0"),           function() vim.lsp.buf.document_symbo
 vim.keymap.set("n", as_cmd("W"),           function() vim.lsp.buf.workspace_symbol() end,  { desc = "Go to workspace symbol" })
 vim.keymap.set("n", as_cmd("A"),           function() vim.lsp.buf.code_action() end,       { desc = "Execute code action" })
 vim.keymap.set("x", as_cmd("A"),           function() vim.lsp.buf.range_code_action() end, { desc = "Execute code action for selected range" })
+vim.keymap.set("x", as_cmd("="),           function() vim.lsp.buf.format() end,            { desc = "Format selected range" })
+vim.keymap.set("n", as_cmd("="),           function() vim.lsp.buf.format() end,            { desc = "Format buffer" })
 vim.keymap.set("n", as_refactor_cmd("rs"), function() vim.lsp.buf.rename() end,            { desc = "Rename symbol under cursor" })
