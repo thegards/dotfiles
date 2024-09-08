@@ -358,5 +358,8 @@ vim.keymap.set("n",
   ':Lein! repl<CR>',
   { desc = "Open REPL" })
 
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 local lspconfig = require("lspconfig")
-lspconfig.clojure_lsp.setup{}
+lspconfig.clojure_lsp.setup{
+  capabilities = capabilities
+}

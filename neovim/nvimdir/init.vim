@@ -16,8 +16,14 @@ call plug#begin()
 Plug 'junegunn/vim-plug'
 
 " LSP
-"Plug 'm00qek/nvim-lsp'
 Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
 
 " Visuals
 Plug 'arcticicestudio/nord-vim'
@@ -33,10 +39,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-dispatch'
 
 " vim customization + features
-"Plug 'hrsh7th/cmp-buffer'
-"Plug 'hrsh7th/cmp-nvim-lsp'
-"Plug 'PaterJason/cmp-conjure'
-Plug 'hrsh7th/nvim-cmp'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim',              { 'tag': '0.1.x' }
 
@@ -45,6 +47,7 @@ Plug 'Olical/conjure',                             { 'for': 'clojure' }
 Plug 'guns/vim-sexp',                              { 'for': 'clojure' }
 Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': 'clojure' }
 Plug 'clojure-vim/vim-jack-in',                    { 'for': 'clojure' }
+Plug 'PaterJason/cmp-conjure',                     { 'for': 'clojure' }
 
 " scala support
 Plug 'derekwyatt/vim-scala',                       { 'for': 'scala' }
