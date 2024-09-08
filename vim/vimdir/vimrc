@@ -27,10 +27,12 @@ Plug 'vim-airline/vim-airline-themes'
 " General-purpose
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'pakutoma/toggle-terminal'
-Plug 'scrooloose/nerdtree',                        { 'on': 'NERDTreeToggle' }
+"Plug 'scrooloose/nerdtree'
 Plug 'luochen1990/rainbow'
 Plug 'tpope/vim-surround'
+Plug 'milkypostman/vim-togglelist'
+Plug 'vim-scripts/AnsiEsc.vim'
+Plug 'junegunn/vim-easy-align'
 
 " vim customization + features
 Plug 'junegunn/fzf'
@@ -45,20 +47,12 @@ Plug 'tpope/vim-salve',                            { 'for': 'clojure' }
 Plug 'tpope/vim-classpath',                        { 'for': 'clojure' }
 Plug 'guns/vim-sexp',                              { 'for': 'clojure' }
 Plug 'tpope/vim-sexp-mappings-for-regular-people', { 'for': 'clojure' }
-"Plug 'liquidz/vim-iced',                           { 'for': 'clojure' }
-"Plug 'liquidz/vim-iced-coc-source',                { 'for': 'clojure' }
-"Plug 'liquidz/vim-iced-function-list',             { 'for': 'clojure', 'on': 'IcedBrowseFunction' }
-"Plug 'liquidz/vim-iced-project-namespaces',        { 'for': 'clojure', 'on': 'IcedBrowseNamespace' }
 Plug 'clojure-vim/vim-jack-in',                    { 'for': 'clojure' }
 
 " scala support
-Plug 'derekwyatt/vim-scala',                       { 'for' : 'clojure' }
+Plug 'derekwyatt/vim-scala',                       { 'for': 'scala' }
 
 call plug#end()
-
-let g:toggle_terminal#position = 'botright'
-"let g:dispatch_strategy='tmux'
-let g:dispatch_tmux_height = '50% -h'
 
 let g:salve_auto_start_repl=1
 
@@ -68,14 +62,12 @@ let g:airline_theme='nord'
 let g:airline_powerline_fonts=1
 let g:nord_bold_vertical_split_line=1
 
-"" rainbow parentheses
 let g:rainbow_active = 1
 
 let NERDTreeKeepTreeInNewTab=1
 
 let g:mapleader=' '
 let g:maplocalleader=','
-let g:iced_enable_default_key_mappings = v:true
 
 " Use tab for trigger completion with characters ahead and navigate
 " NOTE: There's always complete item selected by default, you may want to enable
@@ -97,8 +89,6 @@ function! CheckBackspace() abort
     let col = col('.') - 1
       return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
-let g:iced#buffer#stdout#mods = 'vertical rightbelow'
 
 "== General Setup ==============================================================
 
@@ -167,8 +157,6 @@ au FocusGained * :set rnu | set nu
 au InsertEnter * :set nu | set nornu
 au InsertLeave * :set rnu | set nu
 
-"= Quicklist management Setup ==================================================
-
 nmap <silent> <leader>i"gu i=system("uuidgen \| tr -d '\n' \| tr '[:upper:]' '[:lower:]'")<CR><Esc>
 nmap <silent> <leader>igu i"=system("uuidgen \| tr -d '\n' \| tr '[:upper:]' '[:lower:]'")<CR>"<Esc>
 nmap <silent> <leader>ci"u ci"=system("uuidgen \| tr -d '\n' \| tr '[:upper:]' '[:lower:]'")<CR><Esc>
@@ -177,10 +165,57 @@ nmap <silent> <leader>/g :FzGit<cr>
 nmap <silent> <leader>// :FZF<CR>
 nmap <silent> <leader>/c :FzAg<CR>
 
-"nmap <silent> <leader>gt <Plug>(iced_cycle_src_and_test)
-"nmap <silent> <leader>enR <Plug>(iced_refresh_all)
-
 nmap <silent> <leader>t" :bo term<CR>
 
 nmap <silent> <F3> :NERDTreeToggle<CR>
 nmap <silent> <F4> :NERDTreeFind<CR>
+
+nmap <silent> <F7> :AnsiEsc<CR>
+nmap <silent> <F8> :RainbowToggle<CR>
+
+"nnoremap <Plug>(coc-codeaction)
+"nnoremap <Plug>(coc-codeaction-cursor)
+"nnoremap <Plug>(coc-codeaction-line)
+"nnoremap <Plug>(coc-codeaction-refactor)
+"nnoremap <Plug>(coc-codeaction-refactor-selected)
+"nnoremap <Plug>(coc-codeaction-selected)
+"nnoremap <Plug>(coc-codeaction-source)
+"nnoremap <Plug>(coc-codelens-action)
+"nnoremap <Plug>(coc-range-select)
+"nnoremap <silent> <Plug>(coc-command-repeat)
+"nnoremap <silent> <Plug>(coc-cursors-operator)
+"nnoremap <silent> <Plug>(coc-cursors-position)
+"nnoremap <silent> <Plug>(coc-cursors-word)
+"nnoremap <silent> <Plug>(coc-declaration)
+"nnoremap <silent> <Plug>(coc-definition)
+"nnoremap <silent> <Plug>(coc-diagnostic-info)
+"nnoremap <silent> <Plug>(coc-diagnostic-next)
+"nnoremap <silent> <Plug>(coc-diagnostic-next-error)
+"nnoremap <silent> <Plug>(coc-diagnostic-prev)
+"nnoremap <silent> <Plug>(coc-diagnostic-prev-error)
+"nnoremap <silent> <Plug>(coc-fix-current)
+"nnoremap <silent> <Plug>(coc-float-hide)
+"nnoremap <silent> <Plug>(coc-float-jump)
+"nnoremap <silent> <Plug>(coc-format)
+"nnoremap <silent> <Plug>(coc-format-selected)
+"nnoremap <silent> <Plug>(coc-implementation)
+"nnoremap <silent> <Plug>(coc-openlink)
+"nnoremap <silent> <Plug>(coc-refactor)
+"nnoremap <silent> <Plug>(coc-references)
+"nnoremap <silent> <Plug>(coc-references-used)
+"nnoremap <silent> <Plug>(coc-rename)
+"nnoremap <silent> <Plug>(coc-type-definition)
+"onoremap <silent> <Plug>(coc-classobj-a)
+"onoremap <silent> <Plug>(coc-classobj-i)
+"onoremap <silent> <Plug>(coc-funcobj-a)
+"onoremap <silent> <Plug>(coc-funcobj-i)
+"vnoremap <Plug>(coc-codeaction-refactor-selected)
+"vnoremap <silent> <Plug>(coc-classobj-a)
+"vnoremap <silent> <Plug>(coc-classobj-i)
+"vnoremap <silent> <Plug>(coc-codeaction-selected)
+"vnoremap <silent> <Plug>(coc-cursors-range)
+"vnoremap <silent> <Plug>(coc-format-selected)
+"vnoremap <silent> <Plug>(coc-funcobj-a)
+"vnoremap <silent> <Plug>(coc-funcobj-i)
+"vnoremap <silent> <Plug>(coc-range-select)
+"vnoremap <silent> <Plug>(coc-range-select-backward)
