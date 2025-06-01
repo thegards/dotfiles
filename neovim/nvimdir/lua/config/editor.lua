@@ -1,4 +1,4 @@
--- vim:ts=2:sts=2:sw=2:et:nowrap
+
 
 vim.o.belloff = "all"
 
@@ -49,6 +49,7 @@ vim.keymap.set(
 )
 
 vim.o.wrap = false
+vim.o.fixeol = true
 vim.opt.backspace = { "indent", "eol", "start" }
 vim.o.ignorecase = true
 vim.o.virtualedit = "onemore"
@@ -59,6 +60,7 @@ vim.opt.formatoptions:remove("t")
 
 -- Highlight current cursor line
 vim.o.cursorline = true
+vim.keymap.set("n", "<F7>", function() vim.o.cursorcolumn = not vim.o.cursorcolumn end, { desc = "Toggle highlight current column" })
 vim.o.hlsearch = false
 
 vim.o.scrolloff = 999
@@ -89,4 +91,17 @@ vim.api.nvim_create_autocmd(
       vim.o.number = true
     end
   }
+)
+
+vim.keymap.set("n",
+  "<F5>",
+  function ()
+    if vim.fn.getqflist({winid=1}).winid == 0
+    then
+      vim.cmd("botright copen")
+    else
+      vim.cmd("cclose")
+    end
+  end,
+  { desc = "Toggle quickfix window" }
 )

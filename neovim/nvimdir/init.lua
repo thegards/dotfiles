@@ -6,3 +6,4 @@ vim.g.loaded_my_vimrc = true
 
 require("config.lazy")
 
+require("config.autocmds")

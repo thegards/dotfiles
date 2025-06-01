@@ -29,4 +29,3 @@ end
 function as_refactor_cmd(command)
   return refactor_command_prefix .. command
 end
-
