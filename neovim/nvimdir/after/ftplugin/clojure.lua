@@ -369,7 +369,10 @@ vim.keymap.set("n",
   { desc = "Open babashka nREPL" })
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
-local lspconfig = require("lspconfig")
-lspconfig.clojure_lsp.setup {
-  capabilities = capabilities
-}
+
+vim.lsp.config('clojure_lsp', { capabilities = capabilities })
+vim.lsp.enable('clojure_lsp')
+-- local lspconfig = require("lspconfig")
+-- lspconfig.clojure_lsp.setup {
+--   capabilities = capabilities
+-- }
